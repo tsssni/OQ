@@ -21,6 +21,14 @@ void OQSocket::sendMessage(const QMap<QString, QString>& msg)
         QString tempMsg=key+":"+msg[key];
         out<<tempMsg;
     }
+
+    write(block);
+    disconnectFromHost();
+}
+
+bool OQSocket::finished()
+{
+    return mFinished;
 }
 
 void OQSocket::receiveMessage()
@@ -66,8 +74,13 @@ void OQSocket::receiveMessage()
     emit(handleMessage(msg));
 
     mBufSize=0;
+
     if(bytesAvailable()>0)
     {
         receiveMessage();
+    }
+    else
+    {
+        disconnectFromHost();
     }
 }
