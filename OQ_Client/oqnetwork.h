@@ -44,12 +44,15 @@ class OQNetwork : public QObject
 {
     Q_OBJECT
 public:
-    OQNetwork();
+    static OQNetwork *getNetwork();
     OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, const QVector<QString>& message);
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString>& message);
+private:
+    OQNetwork();
+    static OQNetwork* sNetwork;
 };
 
 #endif // OQNETWORK_H
