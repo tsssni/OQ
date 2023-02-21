@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->picture->setMask(QRegion(ui->picture->rect(),QRegion::RegionType::Ellipse));
+    connect(ui->signIn,SIGNAL(clicked()),this,SLOT(signInClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -13,3 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::signInClicked(){
+    ;
+}
