@@ -44,12 +44,22 @@ class OQNetwork : public QObject
 {
     Q_OBJECT
 public:
+<<<<<<< HEAD
     OQNetwork();
+=======
+    static OQNetwork *getNetwork();
+>>>>>>> 38903b3b3b0b0c5323008f885dfc3df61c636a15
     OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, const QVector<QString>& message);
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString>& message);
+<<<<<<< HEAD
+=======
+private:
+    OQNetwork();
+    static OQNetwork* sNetwork;
+>>>>>>> 38903b3b3b0b0c5323008f885dfc3df61c636a15
 };
 
 #endif // OQNETWORK_H

@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     loginwindow.cpp \
+<<<<<<< HEAD
     main.cpp
 
 HEADERS += \
@@ -25,6 +26,20 @@ HEADERS += \
 
 FORMS += \
     loginwindow.ui
+=======
+    main.cpp \
+    mainwindow.cpp \
+    oqnetwork.cpp
+
+HEADERS += \
+    loginwindow.h \
+    mainwindow.h \
+    oqnetwork.h
+
+FORMS += \
+    loginwindow.ui \
+    mainwindow.ui
+>>>>>>> 38903b3b3b0b0c5323008f885dfc3df61c636a15
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
