@@ -17,18 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     loginwindow.cpp \
-<<<<<<< HEAD
-    main.cpp
-
-HEADERS += \
-    loginwindow.h \
-    oqnetwork.h
-
-FORMS += \
-    loginwindow.ui
-=======
     main.cpp \
-    mainwindow.cpp \
     oqnetwork.cpp
 
 HEADERS += \
@@ -37,9 +26,7 @@ HEADERS += \
     oqnetwork.h
 
 FORMS += \
-    loginwindow.ui \
-    mainwindow.ui
->>>>>>> 38903b3b3b0b0c5323008f885dfc3df61c636a15
+    loginwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -47,5 +34,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    Resource.qrc \
     Resource.qrc

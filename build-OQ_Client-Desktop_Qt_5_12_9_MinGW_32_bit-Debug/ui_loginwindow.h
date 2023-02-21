@@ -28,7 +28,7 @@ public:
     QPushButton *signIn;
     QPushButton *register_2;
     QLabel *picture;
-    QLineEdit *lineEdit;
+    QLineEdit *uid;
 
     void setupUi(QMainWindow *LoginWindow)
     {
@@ -90,9 +90,9 @@ public:
         picture->setObjectName(QString::fromUtf8("picture"));
         picture->setGeometry(QRect(220, 110, 90, 90));
         picture->setPixmap(QPixmap(QString::fromUtf8(":/Resource/oqpicture.png")));
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(120, 210, 290, 35));
+        uid = new QLineEdit(centralwidget);
+        uid->setObjectName(QString::fromUtf8("uid"));
+        uid->setGeometry(QRect(120, 210, 290, 35));
         LoginWindow->setCentralWidget(centralwidget);
 
         retranslateUi(LoginWindow);
@@ -109,7 +109,7 @@ public:
         signIn->setText(QApplication::translate("LoginWindow", "\347\231\273\345\275\225", nullptr));
         register_2->setText(QApplication::translate("LoginWindow", "\346\263\250\345\206\214\350\264\246\345\217\267", nullptr));
         picture->setText(QString());
-        lineEdit->setPlaceholderText(QApplication::translate("LoginWindow", "OQ\345\217\267\347\240\201", nullptr));
+        uid->setPlaceholderText(QApplication::translate("LoginWindow", "OQ\345\217\267\347\240\201", nullptr));
     } // retranslateUi
 
 };
