@@ -1,20 +1,30 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
-MainWindow::MainWindow(QWidget *parent)
+#include "loginwindow.h"
+#include "ui_loginwindow.h"
+#include "oqnetwork.h"
+#include <QString>
+#include <QStringView>
+LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
     ui->picture->setMask(QRegion(ui->picture->rect(),QRegion::RegionType::Ellipse));
     connect(ui->signIn,SIGNAL(clicked()),this,SLOT(signInClicked()));
 }
-
-MainWindow::~MainWindow()
+LoginWindow::~LoginWindow()
 {
     delete ui;
 }
-
-void MainWindow::signInClicked(){
-    ;
+void LoginWindow::signInClicked(){
+    QStringView id=ui->uid->text(),psw=ui->upsw->text();
+    OQ_LOGIN_STATE FB=OQ_LOGIN_STATE_SUCCESS;//;
+ //   OQNetwork::getNetwork()->login(id,psw);
+    switch (FB) {
+        case OQ_LOGIN_STATE_SUCCESS:
+        login();
+        this->close();
+        break;
+    //    case :
+      //  break;
+    }
 }

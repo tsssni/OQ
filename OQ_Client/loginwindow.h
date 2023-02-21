@@ -1,26 +1,22 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class LoginWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class LoginWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
+    LoginWindow(QWidget *parent = nullptr);
+    ~LoginWindow();
+signals:
+    void login();
 private:
-    Ui::MainWindow *ui;
-
+    Ui::LoginWindow *ui;
 private slots:
     void signInClicked();
 };
-#endif // MAINWINDOW_H

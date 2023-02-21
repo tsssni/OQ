@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>LoginWindow</class>
+ <widget class="QMainWindow" name="LoginWindow">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -141,7 +141,7 @@ QLineEdit
      <pixmap resource="Resource.qrc">:/Resource/oqpicture.png</pixmap>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="uid">
     <property name="geometry">
      <rect>
       <x>120</x>

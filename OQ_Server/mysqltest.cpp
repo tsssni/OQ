@@ -37,6 +37,7 @@ bool mysqltest::find(QStringView id,QString& name,QStringView password){
     }
     return false;
 }
+
 bool mysqltest::add(QStringView id,QStringView name,QStringView password){
     QSqlQuery query(this->db);
     query.prepare(QString("insert into qt(userid,password,name) values ( '%1','%2','%3')").arg(id).arg(password).arg(name));

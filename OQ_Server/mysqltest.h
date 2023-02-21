@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
 #include <QStringView>
+
 class mysqltest
 {
 public:

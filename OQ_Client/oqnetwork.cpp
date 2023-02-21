@@ -1,6 +1,5 @@
 #include "oqnetwork.h"
-
-OQNetwork *OQNetwork::getNetwork()
+/*OQNetwork *OQNetwork::getNetwork()
 {
     if(!sNetwork)
     {
@@ -9,7 +8,7 @@ OQNetwork *OQNetwork::getNetwork()
 
     return sNetwork;
 }
-
+*/
 OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password)
 {
     return OQ_REGISTER_STATE_SUCCESS;
