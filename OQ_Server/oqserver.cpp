@@ -1,6 +1,19 @@
 #include "oqserver.h"
 #include "oqsocket.h"
-#include <QPointer>
+#include "oqnetwork.h"
+#include "mysqltest.h"
+#include <QTimer>
+
+OQServer::OQServer(QObject* parent)
+    :QTcpServer(parent)
+{
+    listen(QHostAddress::Any, 8088);
+
+    QTimer *timer=new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &OQServer::clearOfflineSockets);
+    timer->start(1000);
+}
+
 
 void OQServer::incomingConnection(qintptr socketDesc)
 {
@@ -8,71 +21,19 @@ void OQServer::incomingConnection(qintptr socketDesc)
     socket->setSocketDescriptor(socketDesc);
     mSockets.push_back(socket);
 
-    connect(socket, &OQSocket::handleMessage, this, &OQServer::handleMessage);
-    connect(socket, &OQSocket::finishMessage, this, &OQServer::clearFinishedSockets);
+    connect(socket, &OQSocket::handleMessage, OQNetwork::getNetwork(), &OQNetwork::handleMessage);
 }
 
-OQServer *OQServer::getServer()
+void OQServer::clearOfflineSockets()
 {
-    if(!sServer)
+    for(auto itr = mSockets.begin(); itr!=mSockets.end();++itr)
     {
-        sServer=new OQServer();
-    }
-
-    return sServer;
-}
-
-void OQServer::handleMessage(QMap<QString, QString> msg)
-{
-    if(msg["register"] == "true")
-    {
-        registerUser(msg["id"], msg["userName"],msg["password"]);
-    }
-    else if(msg["login"]=="true")
-    {
-        login(msg["id"], msg["password"]);
-    }
-    else if(msg["sendMessage"]=="true")
-    {
-        sendMessage(msg["senderId"],msg["receiverId"],msg["message"]);
-    }
-    else if(msg["receiveMessage"]=="true")
-    {
-        receiveMessage(msg["senderId"],msg["receiverId"]);
+        if((*itr)->state()==QAbstractSocket::SocketState::UnconnectedState)
+        {
+            mSockets.erase(itr);
+        }
     }
 }
 
-void OQServer::clearFinishedSockets()
-{
-    while(!mSockets.empty() && mSockets.front()->finished())
-    {
-        mSockets.pop_front();
-    }
-}
 
-OQServer::OQServer(QObject* parent)
-    :QTcpServer(parent)
-{
-    listen(QHostAddress::Any, 8088);
-}
-
-void OQServer::registerUser(QStringView id, QStringView userName, QStringView password)
-{
-
-}
-
-void OQServer::login(QStringView id, QStringView password)
-{
-
-}
-
-void OQServer::sendMessage(QStringView senderId, QStringView receiverId, QStringView message)
-{
-
-}
-
-void OQServer::receiveMessage(QString senderId, QStringView receiverId)
-{
-
-}
 

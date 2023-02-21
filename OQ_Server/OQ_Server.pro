@@ -4,7 +4,7 @@ QT 	 += sql
 QT 	 += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++20
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,10 +19,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    mysqltest.cpp \
+    oqnetwork.cpp \
     oqserver.cpp \
     oqsocket.cpp
 
 HEADERS += \
+    mysqltest.h \
+    oqnetwork.h \
     oqserver.h \
     oqsocket.h
 

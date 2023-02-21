@@ -23,12 +23,6 @@ void OQSocket::sendMessage(const QMap<QString, QString>& msg)
     }
 
     write(block);
-    disconnectFromHost();
-}
-
-bool OQSocket::finished()
-{
-    return mFinished;
 }
 
 void OQSocket::receiveMessage()
@@ -71,16 +65,12 @@ void OQSocket::receiveMessage()
         msgSize=initBytes-bytesAvailable();
     }
 
-    emit(handleMessage(msg));
+    emit(handleMessage(msg, this));
 
     mBufSize=0;
 
     if(bytesAvailable()>0)
     {
         receiveMessage();
-    }
-    else
-    {
-        disconnectFromHost();
     }
 }

@@ -4,27 +4,20 @@
 #include <QPointer>
 #include <QVector>
 #include <QQueue>
+#include <memory>
 
 class OQSocket;
+class mysqltest;
 
 class OQServer : public QTcpServer
 {
     Q_OBJECT
 public:
-    static OQServer* getServer();
+    OQServer(QObject* parent = nullptr);
     virtual void incomingConnection(qintptr socketDesc)override;
 public slots:
-    void handleMessage(QMap<QString, QString> msg);
-    void clearFinishedSockets();
+    void clearOfflineSockets();
 private:
-    OQServer(QObject* parent=nullptr);
-
-    void registerUser(QStringView id, QStringView userName, QStringView password);
-    void login(QStringView id, QStringView password);
-    void sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
-    void receiveMessage(QString senderId, QStringView receiverId);
-
-    static OQServer* sServer;
     QQueue<OQSocket*> mSockets;
 };
 
