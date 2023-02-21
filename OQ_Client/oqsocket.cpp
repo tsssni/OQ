@@ -6,7 +6,7 @@
 OQSocket::OQSocket(QObject* parent)
     :QTcpSocket(parent)
 {
-    connect(this, &OQSocket::readyRead, this, &OQSocket::receiveMessage, Qt::DirectConnection);
+    connect(this, &OQSocket::readyRead, this, &OQSocket::receiveMessage);
 }
 
 void OQSocket::sendMessage(const QMap<QString, QString>& msg)
@@ -25,6 +25,26 @@ void OQSocket::sendMessage(const QMap<QString, QString>& msg)
     write(block);
 }
 
+void OQSocket::setState(int state)
+{
+    mState=state;
+}
+
+void OQSocket::setData(QString &&data)
+{
+    mData=std::move(data);
+}
+
+int OQSocket::getState()
+{
+    return mState;
+}
+
+const QString &OQSocket::getData()
+{
+    return mData;
+}
+
 void OQSocket::receiveMessage()
 {
     QDataStream in(this);
@@ -33,7 +53,7 @@ void OQSocket::receiveMessage()
     // test whether the data size is accessible
     if(mBufSize==0)
     {
-        if(bytesAvailable()<(int)sizeof(quint16))
+        if(bytesAvailable()<(qint64)sizeof(quint16))
         {
             return;
         }

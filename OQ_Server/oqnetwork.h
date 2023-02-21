@@ -5,7 +5,6 @@
 #include <QMap>
 #include <QString>
 #include <QStringView>
-#include <memory>
 
 class OQSocket;
 class OQServer;
@@ -62,7 +61,7 @@ private:
     OQNetwork();
 	static OQNetwork* sNetwork;
     OQServer* mServer;
-    std::unique_ptr<mysqltest> mMySqlTest;
+    mysqltest* mMySqlTest;
 };
 
 #endif // OQNETWORK_H

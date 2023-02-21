@@ -3,7 +3,9 @@
 #include <QObject>
 #include <QString>
 #include <QStringView>
-#include <QVector>
+#include <QMap>
+
+class OQSocket;
 
 enum OQ_REGISTER_STATE
 {
@@ -50,6 +52,14 @@ public:
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, const QVector<QString>& message);
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString>& message);
+
+    void setState(int state);
+    void setData(QString&& data);
+    int getState();
+    const QString& getData();
+
+public slots:
+    void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
 private:
     OQNetwork();
     static OQNetwork* sNetwork;

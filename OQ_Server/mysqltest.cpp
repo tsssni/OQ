@@ -1,6 +1,8 @@
 #include "mysqltest.h"
 
-mysqltest::mysqltest(){
+mysqltest::mysqltest(QObject* parent)
+    :QObject(parent)
+{
     this->db = QSqlDatabase::addDatabase("QODBC");
         db.setHostName("127.0.0.1");
         db.setPort(3306);

@@ -11,12 +11,20 @@ class OQSocket : public QTcpSocket
 public:
     OQSocket(QObject* parent = nullptr);
     void sendMessage(const QMap<QString, QString>& msg);
+
+    void setState(int state);
+    void setData(QString&& data);
+    int getState();
+    const QString& getData();
+
 signals:
     void handleMessage(QMap<QString, QString> msg, OQSocket*);
 private slots:
     void receiveMessage();
 private:
-    quint16 mBufSize = 0;
+    quint16 mBufSize;
+    int mState;
+    QString mData;
 };
 
 #endif // OQSOCKET_H

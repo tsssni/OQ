@@ -9,10 +9,10 @@
 #include <QtWidgets/QMessageBox>
 #include <QStringView>
 
-class mysqltest
+class mysqltest : public QObject
 {
 public:
-    mysqltest();
+    mysqltest(QObject* parent = nullptr);
     QSqlDatabase db;
     bool find(QStringView id,QString& name,QStringView password);
     bool add(QStringView id,QStringView name,QStringView password);

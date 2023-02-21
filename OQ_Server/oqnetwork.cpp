@@ -3,6 +3,8 @@
 #include "oqsocket.h"
 #include "mysqltest.h"
 
+OQNetwork* OQNetwork::sNetwork=nullptr;
+
 OQNetwork *OQNetwork::getNetwork()
 {
     if(!sNetwork)
@@ -17,19 +19,19 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
 {
     QMap<QString, QString> retMsg;
     
-    if(msg["register"] == "true")
+    if(msg["register"] == "1")
     {
         registerUser(msg["id"], msg["userName"],msg["password"], retMsg);
     }
-    else if(msg["login"]=="true")
+    else if(msg["login"]=="1")
     {
         login(msg["id"], msg["password"], retMsg);
     }
-    else if(msg["sendMessage"]=="true")
+    else if(msg["sendMessage"]=="1")
     {
         sendMessage(msg["senderId"],msg["receiverId"],msg["message"], retMsg);
     }
-    else if(msg["receiveMessage"]=="true")
+    else if(msg["receiveMessage"]=="1")
     {
         receiveMessage(msg["senderId"],msg["receiverId"], retMsg);
     }
@@ -51,9 +53,9 @@ void OQNetwork::registerUser(QStringView id, QStringView userName, QStringView p
     {
         state=OQ_REGISTER_STATE_USER_EXIST;
     }
-    
-    msg["state"]=state;
 
+    msg["register"]="1";
+    msg["state"]=QString::number(state);
 }
 
 void OQNetwork::login(QStringView id, QStringView password, QMap<QString, QString>& msg)
@@ -70,21 +72,24 @@ void OQNetwork::login(QStringView id, QStringView password, QMap<QString, QStrin
         state=OQ_LOGIN_STATE_PASSWORD_INVALID;
     }
     
-    msg["state"]=state;
+    msg["login"]="1";
+    msg["state"]=QString::number(state);
 }
 
 void OQNetwork::sendMessage(QStringView senderId, QStringView receiverId, QStringView message, QMap<QString, QString>& msg)
 {
-
+    msg["sendMessage"]="1";
+    msg["state"]=QString::number(OQ_SEND_MESSAGE_STATE_SUCCESS);
 }
 
 void OQNetwork::receiveMessage(QString senderId, QStringView receiverId, QMap<QString, QString>& msg)
 {
-    
+    msg["receiveMessage"]="1";
+    msg["state"]=QString::number(OQ_RECEIVE_MESSAGE_STATE_SUCCESS);
 }
 
 OQNetwork::OQNetwork()
-	:mServer(new OQServer(this)), mMySqlTest(std::make_unique<mysqltest>())
+    :mServer(new OQServer(this)), mMySqlTest(new mysqltest(this))
 {   
 }
 

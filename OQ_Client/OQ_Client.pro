@@ -1,8 +1,8 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++20
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,13 +19,15 @@ SOURCES += \
     chatframe.cpp \
     loginwindow.cpp \
     main.cpp \
-    oqnetwork.cpp
+    oqnetwork.cpp \
+    oqsocket.cpp
 
 HEADERS += \
     chatframe.h \
     loginwindow.h \
     mainwindow.h \
-    oqnetwork.h
+    oqnetwork.h \
+    oqsocket.h
 
 FORMS += \
     chatframe.ui \

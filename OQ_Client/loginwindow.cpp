@@ -18,7 +18,7 @@ LoginWindow::~LoginWindow()
 void LoginWindow::signInClicked(){
     QStringView id=ui->uid->text(),psw=ui->upsw->text();
     OQ_LOGIN_STATE FB=OQ_LOGIN_STATE_SUCCESS;//;
- //   OQNetwork::getNetwork()->login(id,psw);
+    FB = OQNetwork::getNetwork()->login(id,psw);
     switch (FB) {
         case OQ_LOGIN_STATE_SUCCESS:
         login();
