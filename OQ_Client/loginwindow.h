@@ -13,7 +13,8 @@ class LoginWindow : public QMainWindow
 public:
     LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
-
+signals:
+    void login();
 private:
     Ui::LoginWindow *ui;
 private slots:

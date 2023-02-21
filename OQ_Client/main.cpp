@@ -1,10 +1,8 @@
-#include "loginwindow.h"
+#include "chatframe.h"
 #include <QApplication>
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    LoginWindow l;
-    l.show();
+    ChatFrame c;
     return a.exec();
 }
