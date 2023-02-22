@@ -47,12 +47,41 @@ OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
 
 OQ_SEND_MESSAGE_STATE OQNetwork::sendMessage(QStringView senderId, QStringView receiverId, QStringView message)
 {
-    return OQ_SEND_MESSAGE_STATE_SUCCESS;
+    QMap<QString, QString> msg;
+
+    msg["sendMessage"]="1";
+    msg["senderId"]=senderId.toString();
+    msg["receiverId"]=receiverId.toString();
+    msg["message"]=message.toString();
+
+    tryToConnect(mSocket);
+    auto state=communicate(mSocket, msg, OQ_SEND_MESSAGE_STATE_NETWORK_ERROR);
+
+    return state;
 }
 
-OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString> &message)
+OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QDateTime> &time, QVector<QString> &message)
 {
-    return OQ_RECEIVE_MESSAGE_STATE_SUCCESS;
+    QMap<QString, QString> msg;
+
+    msg["sendMessage"]="1";
+    msg["senderId"]=senderId.toString();
+    msg["receiverId"]=receiverId.toString();
+    msg["queryTime"]=queryTime.toString("yyyy-MM-dd hh:mm:ss");
+
+    tryToConnect(mSocket);
+    auto state=communicate(mSocket, msg, OQ_RECEIVE_MESSAGE_STATE_NETWORK_ERROR);
+
+    auto messages=mSocket->getData();
+    int i=0;
+
+    while(msg["message" + QString::number(i)].count())
+    {
+        time.append(QDateTime::fromString(msg["time"+QString::number(i)], "yyyy-MM-dd hh:mm:ss"));
+        message.append(msg["message"+QString::number(i)]);
+    }
+
+    return state;
 }
 
 void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket *socket)
@@ -63,6 +92,11 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket *socket)
        msg["receiveMessage"]=="1")
     {
         socket->setState(msg["state"].toInt());
+    }
+
+    if(msg["receiveMessage"]=="1")
+    {
+        socket->setData(std::move(msg["message"]));
     }
 }
 

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringView>
 #include <QMap>
+#include <QDateTime>
 
 class OQSocket;
 
@@ -51,7 +52,8 @@ public:
     OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
-    OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString>& message);
+    // get message after the time specified
+    OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QDateTime> &time, QVector<QString>& message);
 
     void setState(int state);
     void setData(QString&& data);
