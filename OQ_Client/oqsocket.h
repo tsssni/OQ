@@ -13,18 +13,18 @@ public:
     void sendMessage(const QMap<QString, QString>& msg);
 
     void setState(int state);
-    void setData(QString&& data);
+    void setData(QMap<QString, QString>&& data);
     int getState();
-    const QString& getData();
+    const QMap<QString, QString>& getData();
 
 signals:
     void handleMessage(QMap<QString, QString> msg, OQSocket*);
 private slots:
     void receiveMessage();
 private:
-    quint16 mBufSize;
+    quint16 mBufSize = 0;
     int mState;
-    QString mData;
+    QMap<QString, QString> mData;
 };
 
 #endif // OQSOCKET_H

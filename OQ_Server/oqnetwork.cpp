@@ -85,6 +85,8 @@ void OQNetwork::sendMessage(QStringView senderId, QStringView receiverId, QStrin
 void OQNetwork::receiveMessage(QString senderId, QStringView receiverId, QMap<QString, QString>& msg)
 {
     msg["receiveMessage"]="1";
+    msg["time0"]="2000-01-01 00:00:00";
+    msg["message0"]="hello world!";
     msg["state"]=QString::number(OQ_RECEIVE_MESSAGE_STATE_SUCCESS);
 }
 

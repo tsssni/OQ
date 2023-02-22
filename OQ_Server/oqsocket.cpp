@@ -16,12 +16,16 @@ void OQSocket::sendMessage(const QMap<QString, QString>& msg)
     out.setVersion(QDataStream::Qt_5_12);
 
     out<<(quint16)0;
+
     for(const QString& key : msg.keys())
     {
         QString tempMsg=key+":"+msg[key];
         out<<tempMsg;
     }
 
+    quint16 size=block.length()-2;
+    block[0]=0xff&size>>8;
+    block[1]=0xff&size;
     write(block);
 }
 

@@ -16,12 +16,16 @@ void OQSocket::sendMessage(const QMap<QString, QString>& msg)
     out.setVersion(QDataStream::Qt_5_12);
 
     out<<(quint16)0;
+
     for(const QString& key : msg.keys())
     {
         QString tempMsg=key+":"+msg[key];
         out<<tempMsg;
     }
 
+    quint16 size=block.length()-2;
+    block[0]=0xff&size>>8;
+    block[1]=0xff&size;
     write(block);
 }
 
@@ -30,7 +34,7 @@ void OQSocket::setState(int state)
     mState=state;
 }
 
-void OQSocket::setData(QString &&data)
+void OQSocket::setData(QMap<QString,QString> &&data)
 {
     mData=std::move(data);
 }
@@ -40,7 +44,7 @@ int OQSocket::getState()
     return mState;
 }
 
-const QString &OQSocket::getData()
+const QMap<QString, QString> &OQSocket::getData()
 {
     return mData;
 }

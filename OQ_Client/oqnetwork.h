@@ -62,27 +62,27 @@ public slots:
     void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
 private:
     OQNetwork();
-    void tryToConnect(OQSocket* socket);
+    void tryToConnect(OQSocket** socketPtr);
 
     template<typename T>
     T communicate(OQSocket* socket, const QMap<QString, QString>& msg, T networkError)
     {
-        if(!socket->waitForConnected())
+        if(!socket->waitForConnected(2000))
         {
             return networkError;
         }
 
         socket->sendMessage(msg);
-        if(!socket->waitForBytesWritten())
+        if(!socket->waitForBytesWritten(2000))
         {
             return networkError;
         }
 
-        if(!socket->waitForReadyRead())
+        if(!socket->waitForReadyRead(2000))
         {
             return networkError;
         }
-        else
+        else if(socket->getState() != -1)
         {
             return T(socket->getState());
         }
@@ -90,8 +90,8 @@ private:
     }
 
     static OQNetwork* sNetwork;
-    OQSocket* mSocket;
-    OQSocket* mRegisterSocket;
+    OQSocket* mSocket = nullptr;
+    OQSocket* mRegisterSocket = nullptr;
 };
 
 #endif // OQNETWORK_H
