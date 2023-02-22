@@ -17,18 +17,16 @@ OQServer::OQServer(QObject* parent)
 
 void OQServer::incomingConnection(qintptr socketDesc)
 {
-    OQSocket* socket=new OQSocket(this);
-    socket->setSocketDescriptor(socketDesc);
-    mSockets.push_back(socket);
-
-    connect(socket, &OQSocket::handleMessage, OQNetwork::getNetwork(), &OQNetwork::handleMessage);
+    OQSocketThread* socketThread=new OQSocketThread(socketDesc, this);
+    mSockets.push_back(socketThread);
+    socketThread->start();
 }
 
 void OQServer::clearOfflineSockets()
 {
-    for(auto itr = mSockets.begin(); itr!=mSockets.end();++itr)
+    for(auto itr = mSockets.begin(); !mSockets.empty() && itr!=mSockets.end();++itr)
     {
-        if((*itr)->state()==QAbstractSocket::SocketState::UnconnectedState)
+        if(!(*itr) || (*itr)->getSocket()->state()==QAbstractSocket::SocketState::UnconnectedState)
         {
             mSockets.erase(itr);
         }

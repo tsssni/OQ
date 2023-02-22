@@ -48,7 +48,7 @@ OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
 {
     QMap<QString, QString> msg;
 
-    msg["register"]="1";
+    msg["login"]="1";
     msg["id"]=id.toString();
     msg["password"]=password.toString();
 

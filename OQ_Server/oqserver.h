@@ -3,10 +3,9 @@
 #include <QTcpServer>
 #include <QPointer>
 #include <QVector>
-#include <QQueue>
 #include <memory>
 
-class OQSocket;
+class OQSocketThread;
 class mysqltest;
 
 class OQServer : public QTcpServer
@@ -18,7 +17,7 @@ public:
 public slots:
     void clearOfflineSockets();
 private:
-    QQueue<OQSocket*> mSockets;
+    QVector<OQSocketThread*> mSockets;
 };
 
 #endif // OQSERVER_H

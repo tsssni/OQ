@@ -1,4 +1,5 @@
 #include "oqsocket.h"
+#include "oqnetwork.h"
 #include <QDataStream>
 #include <QByteArray>
 #include <QThread>
@@ -77,4 +78,21 @@ void OQSocket::receiveMessage()
     {
         receiveMessage();
     }
+}
+
+OQSocketThread::OQSocketThread(qintptr socketDesc, QObject *parent)
+    :QThread(parent)
+{
+    mSocket=new OQSocket(this);
+    mSocket->setSocketDescriptor(socketDesc);
+    connect(mSocket, &OQSocket::handleMessage, OQNetwork::getNetwork(), &OQNetwork::handleMessage);
+}
+
+OQSocket *OQSocketThread::getSocket()
+{
+    return mSocket;
+}
+
+void OQSocketThread::run()
+{
 }

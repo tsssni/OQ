@@ -5,6 +5,18 @@
 #include <QString>
 #include <QThread>
 
+class OQSocket;
+
+class OQSocketThread : public QThread
+{
+public:
+    OQSocketThread(qintptr socketDesc, QObject* parent = nullptr);
+    OQSocket *getSocket();
+    void run() override;
+private:
+    OQSocket* mSocket;
+};
+
 class OQSocket : public QTcpSocket
 {
     Q_OBJECT
