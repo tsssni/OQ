@@ -72,7 +72,7 @@ public:
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     // get message after the time specified
-    OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QDateTime> &time, QVector<QString>& message);
+    OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QString>& message, QVector<QDateTime> &time, QVector<bool> &direction);
     OQ_GET_USERNAME_STATE getUserName(QStringView id, QString& name);
 
 

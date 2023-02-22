@@ -6,7 +6,7 @@
 #include <memory>
 
 class OQSocketThread;
-class mysqltest;
+class OQMySqlTest;
 
 class OQServer : public QTcpServer
 {

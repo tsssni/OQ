@@ -19,13 +19,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mysqltest.cpp \
+    oqmysqltest.cpp \
     oqnetwork.cpp \
     oqserver.cpp \
     oqsocket.cpp
 
 HEADERS += \
-    mysqltest.h \
+    oqmysqltest.h \
     oqnetwork.h \
     oqserver.h \
     oqsocket.h

@@ -1,7 +1,7 @@
 #include "oqserver.h"
 #include "oqsocket.h"
 #include "oqnetwork.h"
-#include "mysqltest.h"
+#include "oqmysqltest.h"
 #include <QTimer>
 
 OQServer::OQServer(QObject* parent)

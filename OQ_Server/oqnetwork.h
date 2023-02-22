@@ -8,7 +8,7 @@
 
 class OQSocket;
 class OQServer;
-class mysqltest;
+class OQMySqlTest;
 
 enum OQ_REGISTER_STATE
 {
@@ -64,13 +64,13 @@ public:
     void registerUser(QStringView id, QStringView userName, QStringView password, QMap<QString, QString>& msg);
     void login(QStringView id, QStringView password, QMap<QString, QString>& msg);
     void sendMessage(QStringView senderId, QStringView receiverId, QStringView message, QMap<QString, QString>& msg);
-    void receiveMessage(QString senderId, QStringView receiverId, QMap<QString, QString>& msg);
-    void getUserName(QString id, QMap<QString, QString>& msg);
+    void receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QMap<QString, QString>& msg);
+    void getUserName(QStringView id, QMap<QString, QString>& msg);
 private:
     OQNetwork();
 	static OQNetwork* sNetwork;
     OQServer* mServer;
-    mysqltest* mMySqlTest;
+    OQMySqlTest* mMySqlTest;
 };
 
 #endif // OQNETWORK_H

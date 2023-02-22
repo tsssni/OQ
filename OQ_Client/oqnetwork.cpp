@@ -73,7 +73,7 @@ OQ_SEND_MESSAGE_STATE OQNetwork::sendMessage(QStringView senderId, QStringView r
     return state;
 }
 
-OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QDateTime> &time, QVector<QString> &message)
+OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QString>& messages, QVector<QDateTime> &times, QVector<bool> &directions)
 {
     QMap<QString, QString> msg;
 
@@ -87,13 +87,17 @@ OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QString
 
     if(state==OQ_RECEIVE_MESSAGE_STATE_SUCCESS)
     {
-        auto messages=mSocket->getData();
+        auto retMsg=mSocket->getData();
         int i=0;
 
-        while(messages["message" + QString::number(i)].count())
+        while(retMsg["message" + QString::number(i)].count())
         {
-            time.append(QDateTime::fromString(messages["time"+QString::number(i)], "yyyy-MM-dd hh:mm:ss"));
-            message.append(messages["message"+QString::number(i)]);
+            QString num=QString::number(i);
+
+            messages.append(retMsg["message"+num]);
+            times.append(QDateTime::fromString(retMsg["time"+num], "yyyy-MM-dd hh:mm:ss"));
+            directions.append(bool(retMsg["direction"+num].toInt()));
+
             ++i;
         }
     }

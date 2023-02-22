@@ -1,24 +1,26 @@
-#include "mysqltest.h"
+#include "oqmysqltest.h"
 
-mysqltest::mysqltest(){
-    this->db = QSqlDatabase::addDatabase("QODBC");
-        db.setHostName("127.0.0.1");
-        db.setPort(3306);
-        db.setDatabaseName("1");
-        db.setUserName("root");
-        db.setPassword("1234");
-        bool ok = db.open();
+OQMySqlTest::OQMySqlTest(QObject* parent)
+    :QObject(this)
+{
+    this->mDataBase = QSqlDatabase::addDatabase("QODBC");
+        mDataBase.setHostName("127.0.0.1");
+        mDataBase.setPort(3306);
+        mDataBase.setDatabaseName("1");
+        mDataBase.setUserName("root");
+        mDataBase.setPassword("1234");
+        bool ok = mDataBase.open();
         if (ok){
             qDebug()<<("success");
         }
         else {
-            qDebug()<<"error open database because"<<db.lastError().text();
+            qDebug()<<"error open database because"<<mDataBase.lastError().text();
         }
-        db.close();
+        mDataBase.close();
 }
-bool mysqltest::find(QString id,QString& name,QString password){
-    if(this->db.open()){
-    QSqlQuery result =  this->db.exec(QString(" select * from qt where userid='%1'").arg(id));
+bool OQMySqlTest::find(QStringView id,QString& name,QStringView password){
+    if(this->mDataBase.open()){
+    QSqlQuery result =  this->mDataBase.exec(QString(" select * from qt where userid='%1'").arg(id));
         QString userIdValue;
         QString pswValue;
         QString nameValue;
@@ -37,30 +39,30 @@ bool mysqltest::find(QString id,QString& name,QString password){
     }
     return false;
 }
-bool mysqltest::add(QString id,QString name,QString password){
-    QSqlQuery query(this->db);
+bool OQMySqlTest::add(QStringView id,QStringView name,QStringView password){
+    QSqlQuery query(this->mDataBase);
     query.prepare(QString("insert into qt(userid,password,name) values ( '%1','%2','%3')").arg(id).arg(password).arg(name));
     return query.exec();
 }
-bool mysqltest::save(QString senderid,QString receiverid,QString text,QDateTime t){
-    if(this->db.open()){
-        QSqlQuery query(this->db);
+bool OQMySqlTest::save(QStringView senderid,QStringView receiverid,QStringView text,const QDateTime& t){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
         query.prepare(QString("insert into message(text,sender,receiver,time) values(:text,:senderid,:receiverid,:t)"));
-        query.bindValue(":senderid",senderid);
-        query.bindValue(":receiverid",receiverid);
-        query.bindValue(":text",text);
+        query.bindValue(":senderid",senderid.toString());
+        query.bindValue(":receiverid",receiverid.toString());
+        query.bindValue(":text",text.toString());
         query.bindValue(":t",t);
         return query.exec();
 
     }
     return false;
 }
-bool mysqltest::history(QString senderid, QString receiverid, QDateTime t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver){
-    if(this->db.open()){
-        QSqlQuery query(this->db);
+bool OQMySqlTest::history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
         query.prepare(QString("select sender,text,receiver,time from message where (sender=:senderid and receiver=:receiverid and time>=:t) or (sender=:receiverid and receiver=:senderid and time>=:t)"));
-        query.bindValue(":senderid",senderid);
-        query.bindValue(":receiverid",receiverid);
+        query.bindValue(":senderid",senderid.toString());
+        query.bindValue(":receiverid",receiverid.toString());
         query.bindValue(":t",t.toString("yyyy-MM-dd hh:mm:ss"));
         query.exec();
         QString ppp;
@@ -74,11 +76,11 @@ bool mysqltest::history(QString senderid, QString receiverid, QDateTime t,QVecto
     }
     return false;
 }
-bool mysqltest::getname(QString id, QString &name){
-    if(this->db.open()){
-        QSqlQuery query(this->db);
+bool OQMySqlTest::getname(QStringView id, QString &name){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
         query.prepare(QString("select name from qt where userid=:id"));
-        query.bindValue(":id",id);
+        query.bindValue(":id",id.toString());
         query.exec();
         while(query.next()){
             name=query.value("name").toString();
