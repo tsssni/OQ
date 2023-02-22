@@ -19,21 +19,25 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
 {
     QMap<QString, QString> retMsg;
     
-    if(msg["register"] == "1")
+    if(msg.count("register"))
     {
         registerUser(msg["id"], msg["userName"],msg["password"], retMsg);
     }
-    else if(msg["login"]=="1")
+    else if(msg.count("login"))
     {
         login(msg["id"], msg["password"], retMsg);
     }
-    else if(msg["sendMessage"]=="1")
+    else if(msg.count("sendMessage"))
     {
         sendMessage(msg["senderId"],msg["receiverId"],msg["message"], retMsg);
     }
-    else if(msg["receiveMessage"]=="1")
+    else if(msg.count("receiveMessage"))
     {
         receiveMessage(msg["senderId"],msg["receiverId"], retMsg);
+    }
+    else if(msg.count("getUserName"))
+    {
+
     }
     
     socket->sendMessage(retMsg);
@@ -88,6 +92,13 @@ void OQNetwork::receiveMessage(QString senderId, QStringView receiverId, QMap<QS
     msg["time0"]="2000-01-01 00:00:00";
     msg["message0"]="hello world!";
     msg["state"]=QString::number(OQ_RECEIVE_MESSAGE_STATE_SUCCESS);
+}
+
+void OQNetwork::getUserName(QString id, QMap<QString, QString> &msg)
+{
+    msg["getUserName"]="1";
+    msg["userName"]="aaa";
+    msg["state"]=QString::number(OQ_GET_USERNAME_STATE_SUCCESS);
 }
 
 OQNetwork::OQNetwork()
