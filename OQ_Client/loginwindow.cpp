@@ -5,6 +5,7 @@
 #include <QStringView>
 #include <QDateTime>
 #include <QVector>
+#include"chatbox.h"
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoginWindow)
@@ -26,6 +27,8 @@ void LoginWindow::signInClicked(){
         case OQ_LOGIN_STATE_SUCCESS:
         login();
         this->close();
+        ChatBox *c = new ChatBox;
+        c->show();
         break;
     //    case :
       //  break;
