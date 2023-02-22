@@ -24,30 +24,11 @@ OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, 
     msg["userName"]=userName.toString();
     msg["password"]=password.toString();
 
-    OQSocket* socket=new OQSocket();
-    connect(socket, &OQSocket::handleMessage, this, &OQNetwork::handleMessage, Qt::DirectConnection);
-    socket->connectToHost("127.0.0.1", 8088);
+    tryToConnect(mRegisterSocket);
+    auto state=communicate(mRegisterSocket, msg, OQ_REGISTER_STATE_NETWORK_ERROR);
 
-    if(!socket->waitForConnected())
-    {
-        return OQ_REGISTER_STATE_NETWORK_ERROR;
-    }
-
-    socket->sendMessage(msg);
-    if(!socket->waitForBytesWritten())
-    {
-        return OQ_REGISTER_STATE_NETWORK_ERROR;
-    }
-
-    if(!socket->waitForReadyRead())
-    {
-        return OQ_REGISTER_STATE_NETWORK_ERROR;
-    }
-    else
-    {
-        return OQ_REGISTER_STATE(socket->getState());
-    }
-
+    mRegisterSocket->disconnectFromHost();
+    return state;
 }
 
 OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
@@ -58,37 +39,13 @@ OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
     msg["id"]=id.toString();
     msg["password"]=password.toString();
 
-    OQSocket* socket=new OQSocket();
-    connect(socket, &OQSocket::handleMessage, this, &OQNetwork::handleMessage, Qt::DirectConnection);
-    socket->connectToHost("127.0.0.1", 8088);
+    tryToConnect(mSocket);
+    auto state = communicate(mSocket, msg, OQ_LOGIN_STATE_NETWORK_ERROR);
 
-    if(!socket->waitForConnected())
-    {
-        return OQ_LOGIN_STATE_NETWORK_ERROR;
-    }
-
-    socket->sendMessage(msg);
-    if(!socket->waitForBytesWritten())
-    {
-        return OQ_LOGIN_STATE_NETWORK_ERROR;
-    }
-
-    if(!socket->waitForReadyRead())
-    {
-        return OQ_LOGIN_STATE_NETWORK_ERROR;
-    }
-    else
-    {
-        return OQ_LOGIN_STATE(socket->getState());
-    }
+    return state;
 }
 
 OQ_SEND_MESSAGE_STATE OQNetwork::sendMessage(QStringView senderId, QStringView receiverId, QStringView message)
-{
-    return OQ_SEND_MESSAGE_STATE_SUCCESS;
-}
-
-OQ_SEND_MESSAGE_STATE OQNetwork::sendMessage(QStringView senderId, QStringView receiverId, const QVector<QString> &message)
 {
     return OQ_SEND_MESSAGE_STATE_SUCCESS;
 }
@@ -111,5 +68,16 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket *socket)
 
 OQNetwork::OQNetwork()
 {
+
+}
+
+void OQNetwork::tryToConnect(OQSocket* socket)
+{
+    if(socket->state()!=QAbstractSocket::ConnectedState)
+    {
+        socket=new OQSocket();
+        connect(socket, &OQSocket::handleMessage, this, &OQNetwork::handleMessage, Qt::DirectConnection);
+        socket->connectToHost("127.0.0.1", 8088);
+    }
 
 }

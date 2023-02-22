@@ -1,5 +1,6 @@
 #ifndef OQNETWORK_H
 #define OQNETWORK_H
+#include "oqsocket.h"
 #include <QObject>
 #include <QString>
 #include <QStringView>
@@ -50,7 +51,6 @@ public:
     OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
-    OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, const QVector<QString>& message);
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QVector<QString>& message);
 
     void setState(int state);
@@ -62,7 +62,36 @@ public slots:
     void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
 private:
     OQNetwork();
+    void tryToConnect(OQSocket* socket);
+
+    template<typename T>
+    T communicate(OQSocket* socket, const QMap<QString, QString>& msg, T networkError)
+    {
+        if(!socket->waitForConnected())
+        {
+            return networkError;
+        }
+
+        socket->sendMessage(msg);
+        if(!socket->waitForBytesWritten())
+        {
+            return networkError;
+        }
+
+        if(!socket->waitForReadyRead())
+        {
+            return networkError;
+        }
+        else
+        {
+            return T(socket->getState());
+        }
+
+    }
+
     static OQNetwork* sNetwork;
+    OQSocket* mSocket;
+    OQSocket* mRegisterSocket;
 };
 
 #endif // OQNETWORK_H
