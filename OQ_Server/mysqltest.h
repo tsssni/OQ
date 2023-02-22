@@ -7,15 +7,20 @@
 #include <QDebug>
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
-#include <QStringView>
-
-class mysqltest : public QObject
+#include <string>
+#include <qdatetime.h>
+#include <qvector.h>
+#include<iostream>
+class mysqltest
 {
 public:
-    mysqltest(QObject* parent = nullptr);
+    mysqltest();
     QSqlDatabase db;
-    bool find(QStringView id,QString& name,QStringView password);
-    bool add(QStringView id,QStringView name,QStringView password);
+    bool find(QString id,QString& name,QString password);
+    bool add(QString id,QString name,QString password);
+    bool save(QString senderid,QString receiverid,QString text,QDateTime t);
+    bool history(QString senderid, QString receiverid, QDateTime t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver);
+    bool getname(QString id,QString& name);
 };
 
 #endif // MYSQLTEST_H
