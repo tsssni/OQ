@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/images"/>
+    <qresource prefix="/">
+        <file>images/addfriend.png</file>
+        <file>images/chat.png</file>
+        <file>images/chat2.png</file>
+        <file>images/close.png</file>
+        <file>images/dongtai.png</file>
+        <file>images/emoj.png</file>
+        <file>images/emoj2.png</file>
+        <file>images/file.png</file>
+        <file>images/file2.png</file>
+        <file>images/haoyou.png</file>
+        <file>images/login_bk.jpg</file>
+        <file>images/max.png</file>
+        <file>images/min.png</file>
+        <file>images/more.png</file>
+        <file>images/more2.png</file>
+        <file>images/profile.jpg</file>
+        <file>images/screenshot.png</file>
+        <file>images/screenshot2.png</file>
+        <file>images/settings.png</file>
+        <file>images/shezhi.png</file>
+        <file>images/shut.png</file>
+        <file>images/src.qrc</file>
+        <file>images/talk.png</file>
+        <file>images/tianjia.png</file>
+        <file>images/tianjia2.png</file>
+        <file>images/wechat.png</file>
+        <file>images/wechat2.png</file>
+        <file>images/wechat3.png</file>
+        <file>images/WeCloudIcon.png</file>
+        <file>images/weichat.png</file>
+        <file>images/wenjian.png</file>
+        <file>images/wxx.png</file>
+        <file>images/zxh.png</file>
+    </qresource>
+</RCC>

@@ -94,8 +94,8 @@ OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QString
         {
             QString num=QString::number(i);
 
-            messages.append(retMsg["message"+num]);
-            times.append(QDateTime::fromString(retMsg["time"+num], "yyyy-MM-dd hh:mm:ss"));
+            messages.append(retMsg["message"+num]);//组合分段的消息都到message里
+            times.append(QDateTime::fromString(retMsg["time"+num], "yyyy-MM-dd hh:mm:ss"));//发消息的时间
             directions.append(bool(retMsg["direction"+num].toInt()));
 
             ++i;
