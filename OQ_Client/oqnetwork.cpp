@@ -15,6 +15,19 @@ OQNetwork *OQNetwork::getNetwork()
     return sNetwork;
 }
 
+void OQNetwork::disconnect()
+{
+    if(mSocket->state()==QAbstractSocket::SocketState::ConnectedState)
+    {
+        mSocket->disconnectFromHost();
+
+        while(!mSocket->waitForDisconnected(500))
+        {
+            mSocket->disconnectFromHost();
+        }
+    }
+}
+
 OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password)
 {
     QMap<QString, QString> msg;

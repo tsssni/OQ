@@ -49,16 +49,14 @@ class OQNetwork : public QObject
     Q_OBJECT
 public:
     static OQNetwork *getNetwork();
+    void disconnect();
+
     OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     // get message after the time specified
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QDateTime> &time, QVector<QString>& message);
 
-    void setState(int state);
-    void setData(QString&& data);
-    int getState();
-    const QString& getData();
 
 public slots:
     void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
