@@ -65,7 +65,7 @@ private:
     void tryToConnect(OQSocket** socketPtr);
 
     template<typename T>
-    T communicate(OQSocket* socket, const QMap<QString, QString>& msg, T networkError)
+    T communicate(OQSocket* socket, const QMap<QString, QString>& msg, T networkError,  T unknownError)
     {
         if(!socket->waitForConnected(2000))
         {
@@ -87,6 +87,7 @@ private:
             return T(socket->getState());
         }
 
+        return unknownError;
     }
 
     static OQNetwork* sNetwork;

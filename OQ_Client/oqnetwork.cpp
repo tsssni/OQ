@@ -38,7 +38,7 @@ OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, 
     msg["password"]=password.toString();
 
     tryToConnect(&mRegisterSocket);
-    auto state=communicate(mRegisterSocket, msg, OQ_REGISTER_STATE_NETWORK_ERROR);
+    auto state=communicate(mRegisterSocket, msg, OQ_REGISTER_STATE_NETWORK_ERROR, OQ_REGISTER_STATE_UNKNOWN_ERROR);
 
     mRegisterSocket->disconnectFromHost();
     return state;
@@ -53,7 +53,7 @@ OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
     msg["password"]=password.toString();
 
     tryToConnect(&mSocket);
-    auto state = communicate(mSocket, msg, OQ_LOGIN_STATE_NETWORK_ERROR);
+    auto state = communicate(mSocket, msg, OQ_LOGIN_STATE_NETWORK_ERROR, OQ_LOGIN_STATE_UNKNOWN_ERROR);
 
     return state;
 }
@@ -68,7 +68,7 @@ OQ_SEND_MESSAGE_STATE OQNetwork::sendMessage(QStringView senderId, QStringView r
     msg["message"]=message.toString();
 
     tryToConnect(&mSocket);
-    auto state=communicate(mSocket, msg, OQ_SEND_MESSAGE_STATE_NETWORK_ERROR);
+    auto state=communicate(mSocket, msg, OQ_SEND_MESSAGE_STATE_NETWORK_ERROR, OQ_SEND_MESSAGE_STATE_UNKNOWN_ERROR);
 
     return state;
 }
@@ -83,7 +83,7 @@ OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QString
     msg["queryTime"]=queryTime.toString("yyyy-MM-dd hh:mm:ss");
 
     tryToConnect(&mSocket);
-    auto state=communicate(mSocket, msg, OQ_RECEIVE_MESSAGE_STATE_NETWORK_ERROR);
+    auto state=communicate(mSocket, msg, OQ_RECEIVE_MESSAGE_STATE_NETWORK_ERROR, OQ_RECEIVE_MESSAGE_STATE_UNKNOWN_ERROR);
 
     auto messages=mSocket->getData();
     int i=0;
