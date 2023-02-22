@@ -135,3 +135,8 @@ void OQNetwork::tryToConnect(OQSocket** socketPtr)
     }
 
 }
+
+void OQNetworkThread::run()
+{
+    OQNetwork::getNetwork();
+}

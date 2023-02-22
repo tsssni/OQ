@@ -6,6 +6,7 @@
 #include <QStringView>
 #include <QMap>
 #include <QDateTime>
+#include <QThread>
 
 class OQSocket;
 
@@ -42,6 +43,14 @@ enum OQ_RECEIVE_MESSAGE_STATE
     OQ_RECEIVE_MESSAGE_STATE_NO_NEW_MESSAGE,
     OQ_RECEIVE_MESSAGE_STATE_NETWORK_ERROR,
     OQ_RECEIVE_MESSAGE_STATE_UNKNOWN_ERROR
+};
+
+class OQNetwork;
+
+class OQNetworkThread : public QThread
+{
+public:
+    void run() override;
 };
 
 class OQNetwork : public QObject
