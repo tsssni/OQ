@@ -17,9 +17,9 @@ ChatBox::ChatBox(QWidget *parent)
 {
     ui->setupUi(this);
     tcpSocket = new QTcpSocket(this);
+    tcpSocket->connectToHost("127.0.0.1",8088);//待改
     connect(tcpSocket,SIGNAL(readyRead()),this,SLOT(readMessage()));
     connect(ui->send,SIGNAL(clicked()),this,SLOT(sendMessage()));
-    tcpSocket->connectToHost("127.0.0.1",1234);//待改
     InitUI();
 }
 
@@ -62,22 +62,28 @@ void ChatBox::on_settings_clicked()
 
 void ChatBox::readMessage(){
     QDataStream in(tcpSocket);
-    //in>>blockSize;//保存已接受到的大小
-    //if(tcpSocket->bytesAvailable()<blockSize)return;//如果没接收完继续接收
-    in>>message;//接收完成就保存在message中
+    QMap<QString,QString> m;//信息传输格式
+    in>>blockSize;//保存已接受到的大小
+    if(tcpSocket->bytesAvailable()<blockSize)return;//如果没接收完继续接收
+    in>>m;//接收完成就保存在m中
     QDateTime time = QDateTime::currentDateTime();//获取当前时间
     QString timestr = time.toString("yyyy-MM-dd hh:mm:ss");
-    ChatShow = ChatShow  + timestr + message;
+    ChatShow = ChatShow  + timestr + m["senderId"] + m["message"];
     ui->textBrowser->setText(ChatShow);
 }
 
 void ChatBox::sendMessage(){
+    QMap<QString,QString> m;
     QString text;
     text=ui->textEdit->toPlainText();//读取输入框中的内容
     ui->textEdit->clear();
+    m.insert("sendMessage","1");
+    m.insert("senderId","user");//修改！！！
+    m.insert("recieverId","user");//修改！！！
+    m.insert("message",text);
     QByteArray block;//缓冲区
     QDataStream out(&block, QIODevice::WriteOnly);//数据默认写到block内
-    out<<text;
+    out<<m;
     tcpSocket->write(block);//发送
     QDateTime time = QDateTime::currentDateTime();//获取当前时间
     QString timestr = time.toString("yyyy-MM-dd hh:mm:ss");

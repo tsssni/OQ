@@ -43,6 +43,6 @@ private:
     QTcpSocket *tcpSocket;
     QString message;
     quint16 blockSize;
-    QString ChatShow;
+    QString ChatShow;//聊天记录保存
 };
 #endif // CHATBOX_H

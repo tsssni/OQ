@@ -9,6 +9,7 @@ user::user(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("用户设置");
+    //下为已经淘汰的文件保存方式
     QString path ="D:/Qt Code/QQ_ChatBox/profile/profile.txt";
     QFile file(path);
     QString s;
@@ -33,7 +34,7 @@ user::~user()
     delete ui;
 }
 
-void user::on_pushButton_2_clicked()//编辑资料
+void user::on_pushButton_2_clicked()//编辑资料目前都存在本地
 {
     changeprofile *c = new changeprofile;
     c->show();
@@ -41,7 +42,7 @@ void user::on_pushButton_2_clicked()//编辑资料
 }
 
 
-void user::on_pushButton_clicked()//修改头像
+void user::on_pushButton_clicked()//修改头像还没做好
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("Open Image"),QDir::homePath(),tr("(*.jpg)\n(*.bmp)\n(*.png)"));//用系统的文件管理器并保存目录
     ui->pushButton->setStyleSheet("background-color: rgb(255, 255, 255);border:none;image: url("+filename+");");//将图片写到样式表中来更改显示
