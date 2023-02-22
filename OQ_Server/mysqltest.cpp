@@ -3,7 +3,6 @@
 mysqltest::mysqltest(QObject* parent)
     :QObject(parent)
 {
-    return;
     this->db = QSqlDatabase::addDatabase("QODBC");
         db.setHostName("127.0.0.1");
         db.setPort(3306);
@@ -20,7 +19,6 @@ mysqltest::mysqltest(QObject* parent)
         db.close();
 }
 bool mysqltest::find(QStringView id,QString& name,QStringView password){
-    return true;
     if(db.open()){
     QSqlQuery result =  this->db.exec(QString(" select * from qt where userid='%1'").arg(id));
         QString userIdValue;
@@ -43,7 +41,6 @@ bool mysqltest::find(QStringView id,QString& name,QStringView password){
 }
 
 bool mysqltest::add(QStringView id,QStringView name,QStringView password){
-    return true;
     QSqlQuery query(this->db);
     query.prepare(QString("insert into qt(userid,password,name) values ( '%1','%2','%3')").arg(id).arg(password).arg(name));
     return query.exec();
