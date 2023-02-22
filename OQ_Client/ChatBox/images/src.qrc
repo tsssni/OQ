@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>settings.png</file>
+        <file>addfriend.png</file>
+        <file>chat.png</file>
+        <file>chat2.png</file>
+        <file>close.png</file>
+        <file>dongtai.png</file>
+        <file>emoj.png</file>
+        <file>emoj2.png</file>
+        <file>file.png</file>
+        <file>file2.png</file>
+        <file>haoyou.png</file>
+        <file>login_bk.jpg</file>
+        <file>max.png</file>
+        <file>min.png</file>
+        <file>more.png</file>
+        <file>more2.png</file>
+        <file>screenshot.png</file>
+        <file>screenshot2.png</file>
+        <file>shezhi.png</file>
+        <file>shut.png</file>
+        <file>tianjia.png</file>
+        <file>tianjia2.png</file>
+        <file>wechat.png</file>
+        <file>wechat2.png</file>
+        <file>wechat3.png</file>
+        <file>WeCloudIcon.png</file>
+        <file>weichat.png</file>
+        <file>wenjian.png</file>
+        <file>wxx.png</file>
+        <file>zxh.png</file>
+        <file>profile.jpg</file>
+        <file>talk.png</file>
+    </qresource>
+</RCC>
