@@ -17,9 +17,6 @@ ChatBox::ChatBox(QWidget *parent)
     , ui(new Ui::ChatBox)
 {
     ui->setupUi(this);
-    tcpSocket = new QTcpSocket(this);
-    tcpSocket->connectToHost("127.0.0.1",8088);//待改
-    connect(tcpSocket,SIGNAL(readyRead()),this,SLOT(readMessage()));
     connect(ui->send,SIGNAL(clicked()),this,SLOT(sendMessage()));
     QTimer *timer = new QTimer;
     connect(timer,SIGNAL(timeout()),this,SLOT(readMessage()));
@@ -64,7 +61,7 @@ void ChatBox::on_settings_clicked()
     s->show();
 }
 
-void ChatBox::readMessage(QDateTime timetemp, QString mestemp, bool dirtemp){//收消息
+void ChatBox::readMessage(){//收消息
     QVector<QString> message;
     QVector<QDateTime> time;
     QVector<bool> direction;
@@ -84,7 +81,7 @@ void ChatBox::readMessage(QDateTime timetemp, QString mestemp, bool dirtemp){//�
             bool dirtemp = direction[i];
             ui->textBrowser->append(timetemp.toString());
             if(dirtemp)ui->textBrowser->append(" 我： ");
-            else ui->textBrowser->append(" 来自 "":");
+            else ui->textBrowser->append(" 来自 "+receiverId+":"+"\n");
             ui->textBrowser->append(mestemp);
         }
     }
@@ -99,13 +96,8 @@ void ChatBox::sendMessage(){
     ui->textEdit->clear();
     OQ_SEND_MESSAGE_STATE FB=OQ_SEND_MESSAGE_STATE_SUCCESS;
     FB = OQNetwork::getNetwork()->sendMessage(senderId,receiverId,text);
-    if(FB==OQ_SEND_MESSAGE_STATE_SUCCESS);
+    if(FB==OQ_SEND_MESSAGE_STATE_SUCCESS)std::cout<<"发送成功"<<std::endl;
     else std::cout<<"发送失败"<<std::endl;
-    //发送回显，目前用服务器直接读取包括自己的消息记录
-    //    QDateTime time = QDateTime::currentDateTime();//获取当前时间
-    //    QString timestr = time.toString("yyyy-MM-dd hh:mm:ss");
-    //    ChatShow = ChatShow  + timestr + " 我： " + text + "\n";
-    //    ui->textBrowser->setText(ChatShow);
 
 }
 

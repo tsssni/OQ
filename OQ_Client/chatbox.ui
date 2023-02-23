@@ -58,7 +58,8 @@ border-color: rgb(88, 88, 88);</string>
     <string notr="true">QPushButton {
 
 	border: none; /* no border for a flat push button */
-	image: url(:/images/setting2.png);
+	
+	image: url(:/images/settings.png);
 	min-width: 30px;
 	max-width: 30px;
 	min-height: 30px;

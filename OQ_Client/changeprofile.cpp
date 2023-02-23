@@ -3,6 +3,8 @@
 #include<QFileDialog>
 #include<string>
 #include"user.h"
+#include"oqnetwork.h"
+#include"chatbox.h"
 
 changeprofile::changeprofile(QWidget *parent) :
     QWidget(parent),
@@ -10,23 +12,13 @@ changeprofile::changeprofile(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("编辑资料");
-    //下为淘汰的文件保存方式
-//    QFile file(path);
-//    file.open(QIODevice::ReadWrite);
-//    QByteArray array;
-//    QString s=file.readLine();
-//    ui->textEdit->setText(s);
-//    array=file.readLine();
-//    temp = array;
-//    s=file.readLine();
-//    ui->textEdit_5->setText(s);
-//    s=file.readLine();
-//    ui->textEdit_4->setText(s);
-//    s=file.readLine();
-//    ui->textEdit_2->setText(s);
-//    s=file.readLine();
-//    ui->textEdit_3->setText(s);
-//    file.close();
+    QString id,name,age,address,gender;
+    id = ChatBox::getuserId();
+    OQNetwork::getNetwork()->getSettings(id,name,gender,age,address);
+    ui->textEdit->setText(name);
+    ui->textEdit_5->setText(age);
+    ui->textEdit_4->setText(address);
+    ui->textEdit_2->setText(gender);
 }
 
 changeprofile::~changeprofile()
@@ -36,24 +28,15 @@ changeprofile::~changeprofile()
 
 void changeprofile::on_pushButton_clicked()
 {
-    //下为淘汰的本地文件存储
-//    QFile file(path);
-//    file.open(QIODevice::ReadWrite);
-//    QByteArray array;
-//    array = ui->textEdit->toPlainText().toUtf8();
-//    file.write(array);
-//    file.write(temp);
-//    array = ui->textEdit_5->toPlainText().toUtf8();
-//    file.write(array);
-//    array = ui->textEdit_4->toPlainText().toUtf8();
-//    file.write(array);
-//    array = ui->textEdit_2->toPlainText().toUtf8();
-//    file.write(array);
-//    array = ui->textEdit_3->toPlainText().toUtf8();
-//    file.write(array);
-//    file.close();
-//    this->close();
-//    user *u = new user;
-//    u->show();
+    QString id,name,age,address,gender;
+    id = ChatBox::getuserId();
+    name = ui->textEdit->toPlainText();
+    age=ui->textEdit_5->toPlainText();
+    address=ui->textEdit_4->toPlainText();
+    gender=ui->textEdit_2->toPlainText();
+    OQNetwork::getNetwork()->setSettings(id,name,gender,age,address);
+    this->close();
+    user *u = new user;
+    u->show();
 }
 
