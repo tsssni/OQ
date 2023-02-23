@@ -34,7 +34,7 @@ void LoginWindow::signInClicked(){
     }
 
     OQ_LOGIN_STATE FB = OQNetwork::getNetwork()->login(id,psw);
-
+    FB=OQ_LOGIN_STATE_SUCCESS;
     switch (FB) {
     case OQ_LOGIN_STATE_SUCCESS:{
             login();

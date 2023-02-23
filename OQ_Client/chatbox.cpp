@@ -43,7 +43,7 @@ void ChatBox::InitUI()
 void ChatBox::on_add_clicked()
 {
     AddFriend *a;
-    a = new AddFriend;
+    a = new AddFriend(ui->FriendList);
     a->show();
 }
 
@@ -68,7 +68,7 @@ void ChatBox::readMessage(){//收消息
     QVector<QDateTime> time;
     QVector<bool> direction;
     OQ_RECEIVE_MESSAGE_STATE RMS = OQ_RECEIVE_MESSAGE_STATE_SUCCESS;
-    QString receiverId;//从张振武那来 还没给接口
+    QString receiverId=getReceiverID();
     QString userId = ChatBox::getuserId();
     RMS = OQNetwork::getNetwork()->receiveMessage(userId,receiverId,QDateTime::currentDateTime().addMSecs(-1),message,time,direction);
     switch(RMS){
@@ -93,6 +93,8 @@ void ChatBox::readMessage(){//收消息
 void ChatBox::sendMessage(){
     QString text;
     QString senderId , receiverId;
+    //senderid
+    receiverId=getReceiverID();
     text=ui->textEdit->toPlainText();//读取输入框中的内容
     ui->textEdit->clear();
     OQ_SEND_MESSAGE_STATE FB=OQ_SEND_MESSAGE_STATE_SUCCESS;
@@ -108,4 +110,35 @@ void ChatBox::setuserId(QString Id){
 
 QString ChatBox::getuserId(){
     return userId;
+}
+
+void ChatBox::setReceiverID(QString id){
+    nowReceiverID=id;
+}
+
+QString ChatBox::getReceiverID(){
+    return nowReceiverID;
+}
+
+void ChatBox::on_FriendList_itemClicked(QListWidgetItem *item)
+{
+    qDebug()<<item->text();//调试
+    /*QString text;
+    text=ui->textBrowser->toPlainText();
+    ui->textEdit->clear();
+    text+="\n"+item->text();*/
+    QString text="";
+    QString senderID="998";//调试
+    QString receiverID=item->text();
+    QDateTime historyTime=QDateTime::currentDateTime().addSecs(-600);
+    QVector<QString>message;
+    QVector<QDateTime>time;
+    QVector<bool>direction;
+
+    OQ_RECEIVE_MESSAGE_STATE FB=OQ_RECEIVE_MESSAGE_STATE_SUCCESS;
+    FB=OQNetwork::getNetwork()->receiveMessage(senderID,receiverID,historyTime,message,time,direction);
+    for(int i=0;i<message.size()&& FB == OQ_RECEIVE_MESSAGE_STATE_SUCCESS;i++){
+
+    }
+    ui->textBrowser->setText(text);
 }
