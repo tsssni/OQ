@@ -25,8 +25,8 @@ public:
     void setButtonBackImage(QPushButton *button,QString image,int W , int H ,int sizeW, int sizeH);
     void InitUI();
     void changeprofile();
-    static void setuserId(QString Id);
-    static QString getuserId();
+    void setuserId(QString Id);
+    QString getuserId();
     void read();
 
 public slots:
@@ -48,6 +48,6 @@ private:
     QString message;
     quint16 blockSize;
     QString ChatShow;//聊天记录保存
-    static QString userId;
+    QString userId;
 };
 #endif // CHATBOX_H

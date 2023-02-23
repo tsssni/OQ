@@ -12,6 +12,7 @@
 *.rej
 *.so
 *.so.*
+*.vscode/
 *_pch.h.cpp
 *_resource.rc
 *.qm
