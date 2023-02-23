@@ -21,7 +21,7 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     
     if(msg.count("register"))
     {
-        registerUser(msg["id"], msg["userName"],msg["password"], retMsg);
+        registerUser(msg["userName"],msg["password"], retMsg);
     }
     else if(msg.count("login"))
     {
@@ -33,32 +33,26 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     }
     else if(msg.count("receiveMessage"))
     {
-        receiveMessage(msg["senderId"],msg["receiverId"], retMsg);
+        receiveMessage(msg["senderId"],msg["receiverId"],QDateTime::fromString(msg["queryTime"]), retMsg);
     }
     else if(msg.count("getUserName"))
     {
-
+        getUserName(msg["id"],retMsg);
     }
     
     socket->sendMessage(retMsg);
 }
 
-void OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password, QMap<QString, QString>& msg)
+void OQNetwork::registerUser(QStringView userName, QStringView password, QMap<QString, QString>& msg)
 {
     OQ_REGISTER_STATE state;
     QString name;
+    QString id="0";
 
-    if(!mMySqlTest->find(id, name, password))
-    {
-        mMySqlTest->add(id, userName, password);
-        state=OQ_REGISTER_STATE_SUCCESS;
-    }
-    else
-    {
-        state=OQ_REGISTER_STATE_USER_EXIST;
-    }
+    mMySqlTest->add(id, userName, password);
 
     msg["register"]="1";
+    msg["id"]=id;
     msg["state"]=QString::number(state);
 }
 

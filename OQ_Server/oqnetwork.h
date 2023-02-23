@@ -13,7 +13,6 @@ class OQMySqlTest;
 enum OQ_REGISTER_STATE
 {
     OQ_REGISTER_STATE_SUCCESS = 0,
-    OQ_REGISTER_STATE_USER_EXIST,
     OQ_REGISTER_STATE_NETWORK_ERROR = 0xfff0,
     OQ_REGISTER_STATE_UNKNOWN_ERROR = 0xfff1
 };
@@ -61,7 +60,7 @@ public:
 public slots:
     void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
 public:
-    void registerUser(QStringView id, QStringView userName, QStringView password, QMap<QString, QString>& msg);
+    void registerUser(QStringView userName, QStringView password, QMap<QString, QString>& msg);
     void login(QStringView id, QStringView password, QMap<QString, QString>& msg);
     void sendMessage(QStringView senderId, QStringView receiverId, QStringView message, QMap<QString, QString>& msg);
     void receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QMap<QString, QString>& msg);

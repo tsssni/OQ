@@ -28,17 +28,22 @@ void OQNetwork::disconnect()
     }
 }
 
-OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password)
+OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView password, QString& id)
 {
     QMap<QString, QString> msg;
 
     msg["register"]="1";
-    msg["id"]=id.toString();
     msg["userName"]=userName.toString();
     msg["password"]=password.toString();
 
     tryToConnect(&mRegisterSocket);
     auto state=communicate<OQ_REGISTER_STATE>(mRegisterSocket, msg);
+
+    if(state==OQ_REGISTER_STATE_SUCCESS)
+    {
+        auto retMessage=mRegisterSocket->getData();
+        id=retMessage["id"];
+    }
 
     mRegisterSocket->disconnectFromHost();
     return state;
