@@ -1,9 +1,7 @@
 #ifndef OQSERVER_H
 #define OQSERVER_H
 #include <QTcpServer>
-#include <QPointer>
-#include <QVector>
-#include <memory>
+#include <QList>
 
 class OQSocketThread;
 class OQMySqlTest;
@@ -17,7 +15,7 @@ public:
 public slots:
     void clearOfflineSockets();
 private:
-    QVector<OQSocketThread*> mSockets;
+    QList<OQSocketThread*> mSockets;
 };
 
 #endif // OQSERVER_H
