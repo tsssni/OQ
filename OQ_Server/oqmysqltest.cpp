@@ -89,7 +89,7 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
     }
     return false;
 }
-bool OQMySqlTest::regist(QString name, QString password){
+bool OQMySqlTest::regist(QStringView name, QStringView password, QString& id){
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
         qDebug()<<"ok";
@@ -97,7 +97,7 @@ bool OQMySqlTest::regist(QString name, QString password){
         query.exec();
         query.next();
         int idnumber = query.value("userid").toInt();
-        QString id = QString::number(idnumber+1);
+        id = QString::number(idnumber+1);
         qDebug()<<this->add(id,name,password);
     }
     return false;

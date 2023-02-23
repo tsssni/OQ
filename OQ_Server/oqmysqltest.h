@@ -20,7 +20,7 @@ public:
     bool save(QStringView senderid,QStringView receiverid,QStringView text,const QDateTime& t);
     bool history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver);
     bool getname(QStringView id,QString& name);
-    bool regist(QString name, QString password);
+    bool regist(QStringView name, QStringView password, QString& id);
 private:
     QSqlDatabase mDataBase;
 };

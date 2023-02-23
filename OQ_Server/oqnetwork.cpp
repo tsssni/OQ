@@ -47,12 +47,19 @@ void OQNetwork::registerUser(QStringView userName, QStringView password, QMap<QS
 {
     OQ_REGISTER_STATE state;
     QString name;
-    QString id="0";
+    QString id;
 
-    mMySqlTest->add(id, userName, password);
+    if(mMySqlTest->regist(userName, password, id))
+    {
+       msg["id"]=id;
+       state=OQ_REGISTER_STATE_SUCCESS;
+    }
+    else
+    {
+        state=OQ_REGISTER_STATE_UNKNOWN_ERROR;
+    }
 
     msg["register"]="1";
-    msg["id"]=id;
     msg["state"]=QString::number(state);
 }
 
@@ -143,9 +150,21 @@ void OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDa
 
 void OQNetwork::getUserName(QStringView id, QMap<QString, QString> &msg)
 {
+    OQ_GET_USERNAME_STATE state;
+    QString name;
+
+    if(mMySqlTest->getname(id, name))
+    {
+        msg["userName"]=name;
+        state=OQ_GET_USERNAME_STATE_SUCCESS;
+    }
+    else
+    {
+        state=OQ_GET_USERNAME_STATE_USER_ID_INVALID;
+    }
+
     msg["getUserName"]="1";
-    msg["userName"]="aaa";
-    msg["state"]=QString::number(OQ_GET_USERNAME_STATE_SUCCESS);
+    msg["state"]=QString::number(state);
 }
 
 OQNetwork::OQNetwork(QObject* parent)
