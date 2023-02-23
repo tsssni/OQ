@@ -89,16 +89,48 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
     }
     return false;
 }
-bool OQMySqlTest::regist(QStringView name, QStringView password, QString& id){
+bool OQMySqlTest::regist(QString name, QString password){
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
-        qDebug()<<"ok";
         query.prepare(QString("select max(userid) as userid from qt"));
         query.exec();
         query.next();
         int idnumber = query.value("userid").toInt();
-        id = QString::number(idnumber+1);
-        qDebug()<<this->add(id,name,password);
+        QString id = QString::number(idnumber+1);
+        query.clear();
+        query.prepare(QString("insert into information (userid,name) values(:userid,:name)"));
+        query.bindValue(":userid",id);
+        query.bindValue(":name",name);
+        query.exec();
+        return this->add(id,name,password);
+    }
+    return false;
+}
+bool OQMySqlTest::update(QString id,QString name, QString gender, QString age, QString address){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
+        query.prepare("update information set name=:name, gender=:gender,age=:age,address=:address where userid=:id");
+        query.bindValue(":name",name);
+        query.bindValue(":gender",gender);
+        query.bindValue(":age",age);
+        query.bindValue(":address",address);
+        query.bindValue(":id",id);
+        return query.exec();
+    }
+    return false;
+}
+bool OQMySqlTest::show(QString id,QString &name, QString &gender, QString &age, QString &address){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
+        query.prepare("select * from information where userid=:id");
+        query.bindValue(":id",id);
+        query.exec();
+        query.next();
+        name=query.value("name").toString();
+        gender=query.value("gender").toString();
+        age=query.value("age").toString();
+        address=query.value("address").toString();
+        return true;
     }
     return false;
 }
