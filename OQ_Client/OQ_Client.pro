@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     oqnetwork.cpp \
     oqsocket.cpp \
+    registerwindow.cpp \
     settings.cpp \
     user.cpp
 
@@ -36,6 +37,7 @@ HEADERS += \
     mainwindow.h \
     oqnetwork.h \
     oqsocket.h \
+    registerwindow.h \
     settings.h \
     user.h
 
@@ -45,6 +47,7 @@ FORMS += \
     chatbox.ui \
     chatframe.ui \
     loginwindow.ui \
+    registerwindow.ui \
     settings.ui \
     user.ui
 
