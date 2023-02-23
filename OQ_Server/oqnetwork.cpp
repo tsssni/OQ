@@ -148,8 +148,8 @@ void OQNetwork::getUserName(QStringView id, QMap<QString, QString> &msg)
     msg["state"]=QString::number(OQ_GET_USERNAME_STATE_SUCCESS);
 }
 
-OQNetwork::OQNetwork()
-    :mServer(new OQServer(this)), mMySqlTest(new OQMySqlTest(this))
+OQNetwork::OQNetwork(QObject* parent)
+    :QObject(parent), mServer(new OQServer(this)), mMySqlTest(new OQMySqlTest(this))
 {   
 }
 

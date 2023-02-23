@@ -1,7 +1,7 @@
 #include "oqmysqltest.h"
 
 OQMySqlTest::OQMySqlTest(QObject* parent)
-    :QObject(this)
+    :QObject(parent)
 {
     this->mDataBase = QSqlDatabase::addDatabase("QODBC");
         mDataBase.setHostName("127.0.0.1");

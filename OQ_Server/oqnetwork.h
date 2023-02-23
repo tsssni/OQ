@@ -66,7 +66,7 @@ public:
     void receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QMap<QString, QString>& msg);
     void getUserName(QStringView id, QMap<QString, QString>& msg);
 private:
-    OQNetwork();
+    OQNetwork(QObject* parent = nullptr);
 	static OQNetwork* sNetwork;
     OQServer* mServer;
     OQMySqlTest* mMySqlTest;
