@@ -3,30 +3,22 @@
 #include<QFileDialog>
 #include<iostream>
 #include"changeprofile.h"
+#include"oqnetwork.h"
+#include"chatbox.h"
 user::user(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::user)
 {
     ui->setupUi(this);
     this->setWindowTitle("用户设置");
-    //下为已经淘汰的文件保存方式
-//    QString path ="D:/Qt Code/QQ_ChatBox/profile/profile.txt";
-//    QFile file(path);
-//    QString s;
-//    file.open(QIODevice::ReadOnly);
-//    s=file.readLine();
-//    ui->textBrowser->setText(s);
-//    s=file.readLine();
-//    ui->textBrowser_2->setText(s);
-//    s=file.readLine();
-//    ui->textBrowser_3->setText(s);
-//    s=file.readLine();
-//    ui->textBrowser_4->setText(s);
-//    s=file.readLine();
-//    ui->textBrowser_5->setText(s);
-//    s=file.readLine();
-//    ui->textBrowser_6->setText(s);
-//    file.close();
+    QString id,name,gender,age,address;
+    id=ChatBox::getuserId();
+    OQNetwork::getNetwork()->getSettings(id,name,gender,age,address);
+    ui->textBrowser->setText(name);
+    ui->textBrowser_2->setText(id);
+    ui->textBrowser_3->setText(age);
+    ui->textBrowser_4->setText(address);
+    ui->textBrowser_5->setText(gender);
 }
 
 user::~user()
@@ -34,7 +26,7 @@ user::~user()
     delete ui;
 }
 
-void user::on_pushButton_2_clicked()//编辑资料目前都存在本地
+void user::on_pushButton_2_clicked()
 {
     changeprofile *c = new changeprofile;
     c->show();
@@ -42,7 +34,7 @@ void user::on_pushButton_2_clicked()//编辑资料目前都存在本地
 }
 
 
-void user::on_pushButton_clicked()//修改头像还没做好
+void user::on_pushButton_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("Open Image"),QDir::homePath(),tr("(*.jpg)\n(*.bmp)\n(*.png)"));//用系统的文件管理器并保存目录
     ui->pushButton->setStyleSheet("background-color: rgb(255, 255, 255);border:none;image: url("+filename+");");//将图片写到样式表中来更改显示

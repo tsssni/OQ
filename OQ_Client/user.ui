@@ -161,24 +161,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>性别</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>340</y>
-     <width>51</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>星座</string>
-   </property>
-  </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
    <property name="geometry">
     <rect>
@@ -223,19 +205,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <rect>
      <x>100</x>
      <y>290</y>
-     <width>231</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border:none;</string>
-   </property>
-  </widget>
-  <widget class="QTextBrowser" name="textBrowser_6">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>340</y>
      <width>231</width>
      <height>51</height>
     </rect>
