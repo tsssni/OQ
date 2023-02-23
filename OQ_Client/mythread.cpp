@@ -36,7 +36,7 @@ void MyThread::handle(){
             QString mestemp = message[i];
             bool dirtemp = direction[i];
             connect(this,SIGNAL(done()),chatbox,SLOT(chatbox->readMessage(timetemp,mestemp,dirtemp)));
-            emit(done());
+            emit void done();
         }
     }
     }
