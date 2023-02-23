@@ -17,6 +17,8 @@ public:
 
 private:
     Ui::RegisterWindow *ui;
+private slots:
+    void registerButtonClicked();
 };
 
 #endif // REGISTERWINDOW_H

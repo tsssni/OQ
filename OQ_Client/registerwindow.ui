@@ -14,7 +14,7 @@
    <string>Register</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
+   <string notr="true">QWidget#RegisterWindow{
 	background-color: rgb(255,255,255);
 }
 QLineEdit
@@ -29,7 +29,7 @@ QLineEdit#vcode
 	border:2px solid rgb(220,220,220);
 	font:18px;
 }
-QPushButton
+QPushButton#registerbutton
 {
 	background-color: rgb(7,188,252);
 	border-radius:5px;
@@ -37,7 +37,7 @@ QPushButton
 	font-weight:500;
 	color:white;
 }
-QPushButton:hover
+QPushButton#registerbutton:hover
 {
 	background-color: rgb(6, 201, 255);
 }
@@ -55,7 +55,7 @@ QLabel#word2{
 	color:white;
 }</string>
   </property>
-  <widget class="QLineEdit" name="uid">
+  <widget class="QLineEdit" name="uname">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -77,6 +77,12 @@ QLabel#word2{
      <height>31</height>
     </rect>
    </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
    <property name="placeholderText">
     <string>密码</string>
    </property>
@@ -89,6 +95,12 @@ QLabel#word2{
      <width>231</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
    <property name="placeholderText">
     <string>确认密码</string>
@@ -160,6 +172,22 @@ QLabel#word2{
    </property>
    <property name="text">
     <string>每一天，乐在沟通</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="inf">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>360</y>
+     <width>231</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
