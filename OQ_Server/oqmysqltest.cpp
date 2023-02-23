@@ -89,3 +89,16 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
     }
     return false;
 }
+bool OQMySqlTest::regist(QString name, QString password){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
+        qDebug()<<"ok";
+        query.prepare(QString("select max(userid) as userid from qt"));
+        query.exec();
+        query.next();
+        int idnumber = query.value("userid").toInt();
+        QString id = QString::number(idnumber+1);
+        qDebug()<<this->add(id,name,password);
+    }
+    return false;
+}

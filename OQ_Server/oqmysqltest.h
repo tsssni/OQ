@@ -14,12 +14,13 @@
 class OQMySqlTest : public QObject
 {
 public:
-    OQMySqlTest(QObject* parent);
+    OQMySqlTest(QObject* parent = nullptr);
     bool find(QStringView id,QString& name,QStringView password);
     bool add(QStringView id,QStringView name,QStringView password);
     bool save(QStringView senderid,QStringView receiverid,QStringView text,const QDateTime& t);
     bool history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver);
     bool getname(QStringView id,QString& name);
+    bool regist(QString name, QString password);
 private:
     QSqlDatabase mDataBase;
 };
