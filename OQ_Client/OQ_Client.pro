@@ -22,7 +22,6 @@ SOURCES += \
     chatframe.cpp \
     loginwindow.cpp \
     main.cpp \
-    mythread.cpp \
     oqnetwork.cpp \
     oqsocket.cpp \
     registerwindow.cpp \
@@ -36,7 +35,6 @@ HEADERS += \
     chatframe.h \
     loginwindow.h \
     mainwindow.h \
-    mythread.h \
     oqnetwork.h \
     oqsocket.h \
     registerwindow.h \
