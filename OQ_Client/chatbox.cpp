@@ -3,7 +3,6 @@
 #include"settings.h"
 #include"user.h"
 #include"addfriend.h"
-#include <QGraphicsDropShadowEffect>
 #include <QGuiApplication>
 #include <QWidget>
 #include <QScreen>
@@ -96,4 +95,12 @@ void ChatBox::sendMessage(){
 //    QString timestr = time.toString("yyyy-MM-dd hh:mm:ss");
 //    ChatShow = ChatShow  + timestr + " 我： " + text + "\n";
 //    ui->textBrowser->setText(ChatShow);
+}
+
+void ChatBox::setuserId(QString Id){
+    userId=Id;
+}
+
+QString ChatBox::getuserId(){
+    return userId;
 }
