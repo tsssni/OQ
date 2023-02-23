@@ -21,7 +21,7 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     
     if(msg.count("register"))
     {
-        registerUser(msg["id"], msg["userName"],msg["password"], retMsg);
+        registerUser(msg["userName"],msg["password"], retMsg);
     }
     else if(msg.count("login"))
     {
@@ -33,29 +33,30 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     }
     else if(msg.count("receiveMessage"))
     {
-        receiveMessage(msg["senderId"],msg["receiverId"], retMsg);
+        receiveMessage(msg["senderId"],msg["receiverId"],QDateTime::fromString(msg["queryTime"]), retMsg);
     }
     else if(msg.count("getUserName"))
     {
-
+        getUserName(msg["id"],retMsg);
     }
     
     socket->sendMessage(retMsg);
 }
 
-void OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password, QMap<QString, QString>& msg)
+void OQNetwork::registerUser(QStringView userName, QStringView password, QMap<QString, QString>& msg)
 {
     OQ_REGISTER_STATE state;
     QString name;
+    QString id;
 
-    if(!mMySqlTest->find(id, name, password))
+    if(mMySqlTest->regist(userName, password, id))
     {
-        mMySqlTest->add(id, userName, password);
-        state=OQ_REGISTER_STATE_SUCCESS;
+       msg["id"]=id;
+       state=OQ_REGISTER_STATE_SUCCESS;
     }
     else
     {
-        state=OQ_REGISTER_STATE_USER_EXIST;
+        state=OQ_REGISTER_STATE_UNKNOWN_ERROR;
     }
 
     msg["register"]="1";
@@ -149,13 +150,25 @@ void OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDa
 
 void OQNetwork::getUserName(QStringView id, QMap<QString, QString> &msg)
 {
+    OQ_GET_USERNAME_STATE state;
+    QString name;
+
+    if(mMySqlTest->getname(id, name))
+    {
+        msg["userName"]=name;
+        state=OQ_GET_USERNAME_STATE_SUCCESS;
+    }
+    else
+    {
+        state=OQ_GET_USERNAME_STATE_USER_ID_INVALID;
+    }
+
     msg["getUserName"]="1";
-    msg["userName"]="aaa";
-    msg["state"]=QString::number(OQ_GET_USERNAME_STATE_SUCCESS);
+    msg["state"]=QString::number(state);
 }
 
-OQNetwork::OQNetwork()
-    :mServer(new OQServer(this)), mMySqlTest(new OQMySqlTest(this))
+OQNetwork::OQNetwork(QObject* parent)
+    :QObject(parent), mServer(new OQServer(this)), mMySqlTest(new OQMySqlTest(this))
 {   
 }
 

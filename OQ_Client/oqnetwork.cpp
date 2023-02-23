@@ -28,17 +28,31 @@ void OQNetwork::disconnect()
     }
 }
 
-OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, QStringView password)
+QStringView OQNetwork::encode(QStringView psw){
+    QString s;
+    for(int i=0;i<psw.size();++i){
+        s+=(psw.mid(i,1).toString().toInt()*i+psw.mid((i>0)?(i-1):i,1).toString().toInt())%10007;
+    }
+    return QStringView(s);
+}
+
+OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView password, QString& id)
 {
+    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["register"]="1";
-    msg["id"]=id.toString();
     msg["userName"]=userName.toString();
     msg["password"]=password.toString();
 
     tryToConnect(&mRegisterSocket);
     auto state=communicate<OQ_REGISTER_STATE>(mRegisterSocket, msg);
+
+    if(state==OQ_REGISTER_STATE_SUCCESS)
+    {
+        auto retMessage=mRegisterSocket->getData();
+        id=retMessage["id"];
+    }
 
     mRegisterSocket->disconnectFromHost();
     return state;
@@ -46,6 +60,7 @@ OQ_REGISTER_STATE OQNetwork::registerUser(QStringView id, QStringView userName, 
 
 OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
 {
+    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["login"]="1";
@@ -94,8 +109,8 @@ OQ_RECEIVE_MESSAGE_STATE OQNetwork::receiveMessage(QStringView senderId, QString
         {
             QString num=QString::number(i);
 
-            messages.append(retMsg["message"+num]);//组合分段的消息都到message里
-            times.append(QDateTime::fromString(retMsg["time"+num], "yyyy-MM-dd hh:mm:ss"));//发消息的时间
+            messages.append(retMsg["message"+num]);
+            times.append(QDateTime::fromString(retMsg["time"+num], "yyyy-MM-dd hh:mm:ss"));
             directions.append(bool(retMsg["direction"+num].toInt()));
 
             ++i;

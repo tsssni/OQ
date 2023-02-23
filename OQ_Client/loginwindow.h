@@ -19,4 +19,5 @@ private:
     Ui::LoginWindow *ui;
 private slots:
     void signInClicked();
+    void registerClicked();
 };

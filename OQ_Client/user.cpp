@@ -10,23 +10,23 @@ user::user(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("用户设置");
     //下为已经淘汰的文件保存方式
-    QString path ="D:/Qt Code/QQ_ChatBox/profile/profile.txt";
-    QFile file(path);
-    QString s;
-    file.open(QIODevice::ReadOnly);
-    s=file.readLine();
-    ui->textBrowser->setText(s);
-    s=file.readLine();
-    ui->textBrowser_2->setText(s);
-    s=file.readLine();
-    ui->textBrowser_3->setText(s);
-    s=file.readLine();
-    ui->textBrowser_4->setText(s);
-    s=file.readLine();
-    ui->textBrowser_5->setText(s);
-    s=file.readLine();
-    ui->textBrowser_6->setText(s);
-    file.close();
+//    QString path ="D:/Qt Code/QQ_ChatBox/profile/profile.txt";
+//    QFile file(path);
+//    QString s;
+//    file.open(QIODevice::ReadOnly);
+//    s=file.readLine();
+//    ui->textBrowser->setText(s);
+//    s=file.readLine();
+//    ui->textBrowser_2->setText(s);
+//    s=file.readLine();
+//    ui->textBrowser_3->setText(s);
+//    s=file.readLine();
+//    ui->textBrowser_4->setText(s);
+//    s=file.readLine();
+//    ui->textBrowser_5->setText(s);
+//    s=file.readLine();
+//    ui->textBrowser_6->setText(s);
+//    file.close();
 }
 
 user::~user()

@@ -13,7 +13,6 @@ class OQSocket;
 enum OQ_REGISTER_STATE
 {
     OQ_REGISTER_STATE_SUCCESS = 0,
-    OQ_REGISTER_STATE_USER_EXIST,
     OQ_REGISTER_STATE_NETWORK_ERROR = 0xfff0,
     OQ_REGISTER_STATE_UNKNOWN_ERROR = 0xfff1
 };
@@ -67,8 +66,8 @@ class OQNetwork : public QObject
 public:
     static OQNetwork *getNetwork();
     void disconnect();
-
-    OQ_REGISTER_STATE registerUser(QStringView id, QStringView userName, QStringView password);
+    QStringView encode(QStringView psw);
+    OQ_REGISTER_STATE registerUser(QStringView userName, QStringView password, QString& id);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
     // get message after the time specified

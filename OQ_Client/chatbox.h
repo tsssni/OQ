@@ -27,7 +27,9 @@ public:
     void changeprofile();
     void setuserId(QString Id);
     QString getuserId();
-private slots:
+    void read();
+
+public slots:
 
     void on_add_clicked();
 
