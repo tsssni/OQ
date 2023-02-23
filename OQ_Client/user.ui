@@ -140,7 +140,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>生日</string>
+    <string>所在地</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -158,7 +158,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>故乡</string>
+    <string>性别</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -176,7 +176,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>电话</string>
+    <string>星座</string>
    </property>
   </widget>
   <widget class="QTextBrowser" name="textBrowser_2">
