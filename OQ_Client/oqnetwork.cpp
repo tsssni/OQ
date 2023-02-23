@@ -28,17 +28,8 @@ void OQNetwork::disconnect()
     }
 }
 
-QStringView OQNetwork::encode(QStringView psw){
-    QString s;
-    for(int i=0;i<psw.size();++i){
-        s+=(psw.mid(i,1).toString().toInt()*i+psw.mid((i>0)?(i-1):i,1).toString().toInt())%10007;
-    }
-    return QStringView(s);
-}
-
 OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView password, QString& id)
 {
-    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["register"]="1";
@@ -60,7 +51,6 @@ OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView pass
 
 OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
 {
-    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["login"]="1";
@@ -138,19 +128,62 @@ OQ_GET_USERNAME_STATE OQNetwork::getUserName(QStringView id, QString &name)
     return state;
 }
 
+OQ_SET_SETTINGS_STATE OQNetwork::setSettings(QStringView id, QStringView name, QStringView gender, QStringView age, QStringView address)
+{
+    QMap<QString, QString> msg;
+
+    msg["setSettings"]="1";
+    msg["id"]=id.toString();
+    msg["name"]=name.toString();
+    msg["gender"]=gender.toString();
+    msg["age"]=age.toString();
+    msg["address"]=address.toString();
+
+    tryToConnect(&mSocket);
+    auto state=communicate<OQ_SET_SETTINGS_STATE>(mSocket, msg);
+
+    return state;
+}
+
+OQ_GET_SETTINGS_STATE OQNetwork::getSettings(QStringView id, QString &name, QString &gender, QString &age, QString &address)
+{
+    QMap<QString, QString> msg;
+
+    msg["getSettings"]="1";
+    msg["id"]=id.toString();
+
+    tryToConnect(&mSocket);
+    auto state=communicate<OQ_GET_SETTINGS_STATE>(mSocket, msg);
+
+    if(state==OQ_GET_SETTINGS_STATE_SUCCESS)
+    {
+        auto retMsg=mSocket->getData();
+        name=retMsg["name"];
+        gender=retMsg["gender"];
+        age=retMsg["age"];
+        address=retMsg["address"];
+    }
+
+    return state;
+
+}
+
 void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket *socket)
 {
     if(msg.count("register")||
        msg.count("login")||
        msg.count("sendMessage")||
        msg.count("receiveMessage")||
-       msg.count("getUserName"))
+       msg.count("getUserName")||
+       msg.count("setSettings")||
+       msg.count("getSettings"))
     {
         socket->setState(msg["state"].toInt());
     }
 
     if(msg.count("receiveMessage")||
-       msg.count("getUserName"))
+       msg.count("getUserName")||
+       msg.count("getSettings"))
     {
         socket->setData(std::move(msg));
     }
