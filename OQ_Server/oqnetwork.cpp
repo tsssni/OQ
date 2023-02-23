@@ -39,6 +39,14 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     {
         getUserName(msg["id"],retMsg);
     }
+    else if(msg.count("setSettings"))
+    {
+        setSettings(msg["id"],msg["name"],msg["gender"],msg["age"],msg["address"],retMsg);
+    }
+    else if(msg.count("getSettings"))
+    {
+        getSettings(msg["id"],retMsg);
+    }
     
     socket->sendMessage(retMsg);
 }
@@ -164,6 +172,48 @@ void OQNetwork::getUserName(QStringView id, QMap<QString, QString> &msg)
     }
 
     msg["getUserName"]="1";
+    msg["state"]=QString::number(state);
+}
+
+void OQNetwork::setSettings(QStringView id, QStringView name, QStringView gender, QStringView age, QStringView address, QMap<QString, QString>& msg)
+{
+    OQ_SET_SETTINGS_STATE state;
+
+    if(mMySqlTest->update(id, name, gender, age, address))
+    {
+        state=OQ_SET_SETTINGS_STATE_SUCCESS;
+    }
+    else
+    {
+        state=OQ_SET_SETTINGS_STATE_UNKNOWN_ERROR;
+    }
+
+    msg["setSettings"]="1";
+    msg["state"]=QString::number(state);
+}
+
+void OQNetwork::getSettings(QStringView id, QMap<QString, QString>& msg)
+{
+    OQ_GET_SETTINGS_STATE state;
+    QString name;
+    QString gender;
+    QString age;
+    QString address;
+
+    if(mMySqlTest->show(id, name, gender, age, address))
+    {
+        state=OQ_GET_SETTINGS_STATE_SUCCESS;
+        msg["name"]=name;
+        msg["gender"]=gender;
+        msg["age"]=age;
+        msg["address"]=address;
+    }
+    else
+    {
+        state=OQ_GET_SETTINGS_STATE_UNKNOWN_ERROR;
+    }
+
+    msg["getSettings"]="1";
     msg["state"]=QString::number(state);
 }
 
