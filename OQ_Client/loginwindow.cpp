@@ -39,6 +39,7 @@ void LoginWindow::signInClicked(){
             login();
             this->close();
             ChatBox *c = new ChatBox;
+            //c
             c->show();
         }
         break;

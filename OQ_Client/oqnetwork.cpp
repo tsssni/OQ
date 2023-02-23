@@ -28,8 +28,17 @@ void OQNetwork::disconnect()
     }
 }
 
+QStringView OQNetwork::encode(QStringView psw){
+    QString s;
+    for(int i=0;i<psw.size();++i){
+        s+=(psw.mid(i,1).toString().toInt()*i+psw.mid((i>0)?(i-1):i,1).toString().toInt())%10007;
+    }
+    return QStringView(s);
+}
+
 OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView password, QString& id)
 {
+    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["register"]="1";
@@ -51,6 +60,7 @@ OQ_REGISTER_STATE OQNetwork::registerUser(QStringView userName, QStringView pass
 
 OQ_LOGIN_STATE OQNetwork::login(QStringView id, QStringView password)
 {
+    password=encode(password);
     QMap<QString, QString> msg;
 
     msg["login"]="1";

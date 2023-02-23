@@ -4,6 +4,7 @@
 #include<windows.h>
 int main(int argc, char *argv[])
 {
+    srand((unsigned int)new char);
     //qreal  cx = GetSystemMetrics(SM_CXSCREEN);
     //qreal scale = cx / 1920;				// 自动缩放
    // qputenv("QT_SCALE_FACTOR", QString::number(scale).toLatin1());
