@@ -96,8 +96,9 @@ void RegisterWindow::registerButtonClicked(){
         getvcode();
         return;
     }
-    OQ_REGISTER_STATE FB=OQ_REGISTER_STATE_SUCCESS;//;
-   // FB = OQNetwork::getNetwork()->registerUser(name,psw,id);
+
+    OQ_REGISTER_STATE FB = OQNetwork::getNetwork()->registerUser(name,psw,id);
+
     switch (FB) {
     case OQ_REGISTER_STATE_SUCCESS:{
             this->close();

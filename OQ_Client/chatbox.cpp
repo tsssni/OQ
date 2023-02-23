@@ -12,6 +12,8 @@
 #include<QTimer>
 #include<iostream>
 
+QString ChatBox::userId="";
+
 ChatBox::ChatBox(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ChatBox)
@@ -89,7 +91,6 @@ void ChatBox::readMessage(){//收消息
 }
 
 void ChatBox::sendMessage(){
-//    QMap<QString,QString> m;
     QString text;
     QString senderId , receiverId;
     text=ui->textEdit->toPlainText();//读取输入框中的内容
