@@ -81,7 +81,6 @@ class OQNetwork : public QObject
 public:
     static OQNetwork *getNetwork();
     void disconnect();
-
     OQ_REGISTER_STATE registerUser(QStringView userName, QStringView password, QString& id);
     OQ_LOGIN_STATE login(QStringView id, QStringView password);
     OQ_SEND_MESSAGE_STATE sendMessage(QStringView senderId, QStringView receiverId, QStringView message);
