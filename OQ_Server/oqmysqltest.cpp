@@ -1,7 +1,7 @@
 #include "oqmysqltest.h"
 
 OQMySqlTest::OQMySqlTest(QObject* parent)
-    :QObject(this)
+    :QObject(parent)
 {
     this->mDataBase = QSqlDatabase::addDatabase("QODBC");
         mDataBase.setHostName("127.0.0.1");
@@ -86,6 +86,19 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
             name=query.value("name").toString();
             return true;
         }
+    }
+    return false;
+}
+bool OQMySqlTest::regist(QString name, QString password){
+    if(this->mDataBase.open()){
+        QSqlQuery query(this->mDataBase);
+        qDebug()<<"ok";
+        query.prepare(QString("select max(userid) as userid from qt"));
+        query.exec();
+        query.next();
+        int idnumber = query.value("userid").toInt();
+        QString id = QString::number(idnumber+1);
+        qDebug()<<this->add(id,name,password);
     }
     return false;
 }
