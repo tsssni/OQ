@@ -32,8 +32,9 @@ void LoginWindow::signInClicked(){
         ui->inf->setStyleSheet("color: rgb(255,0,0)");
         return;
     }
-    OQ_LOGIN_STATE FB=OQ_LOGIN_STATE_PASSWORD_INVALID;//;
+    OQ_LOGIN_STATE FB=OQ_LOGIN_STATE_PASSWORD_INVALID;
     //FB = OQNetwork::getNetwork()->login(id,psw);
+
     switch (FB) {
     case OQ_LOGIN_STATE_SUCCESS:{
             login();

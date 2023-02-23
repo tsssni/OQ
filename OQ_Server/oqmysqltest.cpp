@@ -89,41 +89,41 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
     }
     return false;
 }
-bool OQMySqlTest::regist(QString name, QString password){
+bool OQMySqlTest::regist(QStringView name, QStringView password, QString& id){
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
         query.prepare(QString("select max(userid) as userid from qt"));
         query.exec();
         query.next();
         int idnumber = query.value("userid").toInt();
-        QString id = QString::number(idnumber+1);
+        id = QString::number(idnumber+1);
         query.clear();
         query.prepare(QString("insert into information (userid,name) values(:userid,:name)"));
         query.bindValue(":userid",id);
-        query.bindValue(":name",name);
+        query.bindValue(":name",name.toString());
         query.exec();
         return this->add(id,name,password);
     }
     return false;
 }
-bool OQMySqlTest::update(QString id,QString name, QString gender, QString age, QString address){
+bool OQMySqlTest::update(QStringView id,QStringView name, QStringView gender, QStringView age, QStringView address){
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
         query.prepare("update information set name=:name, gender=:gender,age=:age,address=:address where userid=:id");
-        query.bindValue(":name",name);
-        query.bindValue(":gender",gender);
-        query.bindValue(":age",age);
-        query.bindValue(":address",address);
-        query.bindValue(":id",id);
+        query.bindValue(":name",name.toString());
+        query.bindValue(":gender",gender.toString());
+        query.bindValue(":age",age.toString());
+        query.bindValue(":address",address.toString());
+        query.bindValue(":id",id.toString());
         return query.exec();
     }
     return false;
 }
-bool OQMySqlTest::show(QString id,QString &name, QString &gender, QString &age, QString &address){
+bool OQMySqlTest::show(QStringView id,QString &name, QString &gender, QString &age, QString &address){
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
         query.prepare("select * from information where userid=:id");
-        query.bindValue(":id",id);
+        query.bindValue(":id",id.toString());
         query.exec();
         query.next();
         name=query.value("name").toString();

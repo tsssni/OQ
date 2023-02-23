@@ -20,9 +20,9 @@ public:
     bool save(QStringView senderid,QStringView receiverid,QStringView text,const QDateTime& t);
     bool history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver);
     bool getname(QStringView id,QString& name);
-    bool regist(QString name, QString password);
-    bool update(QString id,QString name, QString gender, QString age,QString address);
-    bool show(QString id,QString& name,QString& gender, QString& age,QString& address);
+    bool regist(QStringView name, QStringView password, QString& id);
+    bool update(QStringView id,QStringView name, QStringView gender, QStringView age,QStringView address);
+    bool show(QStringView id,QString& name,QString& gender, QString& age,QString& address);
 private:
     QSqlDatabase mDataBase;
 };

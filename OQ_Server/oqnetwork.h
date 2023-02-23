@@ -52,6 +52,20 @@ enum OQ_GET_USERNAME_STATE
     OQ_GET_USERNAME_STATE_UNKNOWN_ERROR = 0xfff1,
 };
 
+enum OQ_SET_SETTINGS_STATE
+{
+    OQ_SET_SETTINGS_STATE_SUCCESS=0,
+    OQ_SET_SETTINGS_STATE_NETWORK_ERROR=0xfff0,
+    OQ_SET_SETTINGS_STATE_UNKNOWN_ERROR=0xfff1
+};
+
+enum OQ_GET_SETTINGS_STATE
+{
+    OQ_GET_SETTINGS_STATE_SUCCESS=0,
+    OQ_GET_SETTINGS_STATE_NETWORK_ERROR=0xfff0,
+    OQ_GET_SETTINGS_STATE_UNKNOWN_ERROR=0xfff1
+};
+
 class OQNetwork : public QObject
 {
     Q_OBJECT
@@ -65,6 +79,8 @@ public:
     void sendMessage(QStringView senderId, QStringView receiverId, QStringView message, QMap<QString, QString>& msg);
     void receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QMap<QString, QString>& msg);
     void getUserName(QStringView id, QMap<QString, QString>& msg);
+    void setSettings(QStringView id,QStringView name, QStringView gender, QStringView age,QStringView address, QMap<QString, QString>& msg);
+    void getSettings(QStringView id, QMap<QString, QString>& msg);
 private:
     OQNetwork(QObject* parent = nullptr);
 	static OQNetwork* sNetwork;

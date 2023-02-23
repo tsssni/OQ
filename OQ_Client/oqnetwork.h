@@ -52,6 +52,21 @@ enum OQ_GET_USERNAME_STATE
     OQ_GET_USERNAME_STATE_UNKNOWN_ERROR = 0xfff1,
 };
 
+enum OQ_SET_SETTINGS_STATE
+{
+    OQ_SET_SETTINGS_STATE_SUCCESS=0,
+    OQ_SET_SETTINGS_STATE_NETWORK_ERROR=0xfff0,
+    OQ_SET_SETTINGS_STATE_UNKNOWN_ERROR=0xfff1
+};
+
+enum OQ_GET_SETTINGS_STATE
+{
+    OQ_GET_SETTINGS_STATE_SUCCESS=0,
+    OQ_GET_SETTINGS_STATE_NETWORK_ERROR=0xfff0,
+    OQ_GET_SETTINGS_STATE_UNKNOWN_ERROR=0xfff1
+};
+
+
 class OQNetwork;
 
 class OQNetworkThread : public QThread
@@ -73,7 +88,8 @@ public:
     // get message after the time specified
     OQ_RECEIVE_MESSAGE_STATE receiveMessage(QStringView senderId, QStringView receiverId, QDateTime queryTime, QVector<QString>& message, QVector<QDateTime> &time, QVector<bool> &direction);
     OQ_GET_USERNAME_STATE getUserName(QStringView id, QString& name);
-
+    OQ_SET_SETTINGS_STATE setSettings(QStringView id,QStringView name, QStringView gender, QStringView age,QStringView address);
+    OQ_GET_SETTINGS_STATE getSettings(QStringView id, QString& name,QString& gender, QString& age,QString& address);
 
 public slots:
     void handleMessage(QMap<QString, QString> msg, OQSocket* socket);
