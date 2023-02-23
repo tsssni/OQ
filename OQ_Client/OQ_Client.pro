@@ -16,22 +16,40 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addfriend.cpp \
+    changeprofile.cpp \
+    chatbox.cpp \
     chatframe.cpp \
     loginwindow.cpp \
     main.cpp \
     oqnetwork.cpp \
-    oqsocket.cpp
+    oqsocket.cpp \
+    registerwindow.cpp \
+    settings.cpp \
+    user.cpp
 
 HEADERS += \
+    addfriend.h \
+    changeprofile.h \
+    chatbox.h \
     chatframe.h \
     loginwindow.h \
     mainwindow.h \
     oqnetwork.h \
-    oqsocket.h
+    oqsocket.h \
+    registerwindow.h \
+    settings.h \
+    user.h
 
 FORMS += \
+    addfriend.ui \
+    changeprofile.ui \
+    chatbox.ui \
     chatframe.ui \
-    loginwindow.ui
+    loginwindow.ui \
+    registerwindow.ui \
+    settings.ui \
+    user.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -39,4 +57,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    Resource.qrc
+    Resource.qrc \
+    Resource.qrc \
+    images.qrc

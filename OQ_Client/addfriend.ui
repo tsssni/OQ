@@ -2,8 +2,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>ChatFrame</class>
- <widget class="QWidget" name="ChatFrame">
+ <class>AddFriend</class>
+ <widget name="AddFriend" class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
