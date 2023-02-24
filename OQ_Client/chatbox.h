@@ -10,7 +10,6 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QDateTime>
-#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ChatBox; }
@@ -28,8 +27,6 @@ public:
     void changeprofile();
     static void setuserId(QString Id);
     static QString getuserId();
-    QString getReceiverID();
-    void setReceiverID(QString id);
     void read();
 
 public slots:
@@ -45,9 +42,6 @@ public slots:
 
     void sendMessage();//发送数据
 
-private slots:
-    void on_FriendList_itemClicked(QListWidgetItem *item);
-
 private:
     Ui::ChatBox *ui;
     QTcpSocket *tcpSocket;
@@ -55,6 +49,5 @@ private:
     quint16 blockSize;
     QString ChatShow;//聊天记录保存
     static QString userId;
-    QString nowReceiverID;
 };
 #endif // CHATBOX_H

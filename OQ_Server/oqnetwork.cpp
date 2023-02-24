@@ -33,7 +33,7 @@ void OQNetwork::handleMessage(QMap<QString, QString> msg, OQSocket* socket)
     }
     else if(msg.count("receiveMessage"))
     {
-        receiveMessage(msg["senderId"],msg["receiverId"],QDateTime::fromString(msg["queryTime"]), retMsg);
+        receiveMessage(msg["senderId"],msg["receiverId"],QDateTime::fromString(msg["queryTime"], "yyyy-MM-dd hh:mm:ss"), retMsg);
     }
     else if(msg.count("getUserName"))
     {
@@ -142,7 +142,7 @@ void OQNetwork::receiveMessage(QStringView senderId, QStringView receiverId, QDa
             QString num=QString::number(i);
 
             msg["message"+num]=messages[i];
-            msg["time"+num]=times[i].toString();
+            msg["time"+num]=times[i].toString("yyyy-MM-dd hh:mm:ss");
             msg["direction"+num]=QString::number(int(senders[i]==senderId));
         }
     }

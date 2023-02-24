@@ -32,11 +32,13 @@ bool OQMySqlTest::find(QStringView id,QString& name,QStringView password){
             if(id==userIdValue){
                 if(pswValue==password){
                     name=nameValue;
+                    this->mDataBase.close();
                     return true;
                 }
             }
         }
     }
+    this->mDataBase.close();
     return false;
 }
 bool OQMySqlTest::add(QStringView id,QStringView name,QStringView password){
@@ -52,12 +54,17 @@ bool OQMySqlTest::save(QStringView senderid,QStringView receiverid,QStringView t
         query.bindValue(":receiverid",receiverid.toString());
         query.bindValue(":text",text.toString());
         query.bindValue(":t",t);
-        return query.exec();
+        query.exec();
+        this->mDataBase.close();
+        return true;
 
     }
+    this->mDataBase.close();
     return false;
 }
-bool OQMySqlTest::history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver){
+bool OQMySqlTest::history(QStringView senderid, QStringView receiverid, const QDateTime& t,QVector<QString>& text,QVector<QDateTime>& time,QVector<QString>& sender,QVector<QString>& receiver)
+{
+
     if(this->mDataBase.open()){
         QSqlQuery query(this->mDataBase);
         query.prepare(QString("select sender,text,receiver,time from message where (sender=:senderid and receiver=:receiverid and time>=:t) or (sender=:receiverid and receiver=:senderid and time>=:t)"));
@@ -72,8 +79,10 @@ bool OQMySqlTest::history(QStringView senderid, QStringView receiverid, const QD
             text.push_back(query.value("text").toString());
             time.push_back(query.value("time").toDateTime());
         }
+        this->mDataBase.close();
         return true;
     }
+    this->mDataBase.close();
     return false;
 }
 bool OQMySqlTest::getname(QStringView id, QString &name){
@@ -84,9 +93,11 @@ bool OQMySqlTest::getname(QStringView id, QString &name){
         query.exec();
         while(query.next()){
             name=query.value("name").toString();
+            this->mDataBase.close();
             return true;
         }
     }
+    this->mDataBase.close();
     return false;
 }
 bool OQMySqlTest::regist(QStringView name, QStringView password, QString& id){
@@ -102,8 +113,11 @@ bool OQMySqlTest::regist(QStringView name, QStringView password, QString& id){
         query.bindValue(":userid",id);
         query.bindValue(":name",name.toString());
         query.exec();
-        return this->add(id,name,password);
+        this->add(id,name,password);
+        this->mDataBase.close();
+        return true;
     }
+    this->mDataBase.close();
     return false;
 }
 bool OQMySqlTest::update(QStringView id,QStringView name, QStringView gender, QStringView age, QStringView address){
@@ -115,8 +129,11 @@ bool OQMySqlTest::update(QStringView id,QStringView name, QStringView gender, QS
         query.bindValue(":age",age.toString());
         query.bindValue(":address",address.toString());
         query.bindValue(":id",id.toString());
-        return query.exec();
+        query.exec();
+        this->mDataBase.close();
+        return true;
     }
+    this->mDataBase.close();
     return false;
 }
 bool OQMySqlTest::show(QStringView id,QString &name, QString &gender, QString &age, QString &address){
@@ -130,7 +147,9 @@ bool OQMySqlTest::show(QStringView id,QString &name, QString &gender, QString &a
         gender=query.value("gender").toString();
         age=query.value("age").toString();
         address=query.value("address").toString();
+        this->mDataBase.close();
         return true;
     }
+    this->mDataBase.close();
     return false;
 }
